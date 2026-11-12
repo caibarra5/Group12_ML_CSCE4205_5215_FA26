@@ -44,7 +44,9 @@ split = {
     "test_participants": test_ids,
     "cv_folds": folds,
 }
-OUT.write_text(json.dumps(split, indent=2) + "\n")
+# newline="\n" keeps LF line endings on Windows too, so reruns match the committed file
+with open(OUT, "w", newline="\n") as f:
+    f.write(json.dumps(split, indent=2) + "\n")
 print(f"Wrote {OUT.relative_to(ROOT)}")
 for i, fold in enumerate(folds):
     print(f"  fold {i}: {fold}")
