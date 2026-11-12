@@ -20,6 +20,17 @@ Use participant-separated data splits, with **macro-F1** as the primary metric. 
 
 Final code will include environment requirements, split definitions, random seeds, reproduction instructions, and team contribution statements.
 
+## Environment
+Create a virtual environment in the repo root, activate it, then install the requirements:
+
+```
+python -m venv venv
+venv\Scripts\activate        # Windows (macOS/Linux: source venv/bin/activate)
+pip install -r requirements.txt
+```
+
+Add a package to `requirements.txt` when your code starts importing it. The `venv/` folder is ignored by git.
+
 ## Data
 The dataset is not stored in git. Download it from the [UCI HAR dataset page](https://archive.ics.uci.edu/dataset/240/human+activity+recognition+using+smartphones), unzip it, and place the contents in `data/raw/UCI HAR Dataset/` so that `train/` and `test/` sit directly inside it.
 
