@@ -19,3 +19,14 @@ Use participant-separated data splits, with **macro-F1** as the primary metric. 
 - **Final report and code:** December 4, 2026
 
 Final code will include environment requirements, split definitions, random seeds, reproduction instructions, and team contribution statements.
+
+## Data
+The dataset is not stored in git. Download it from the [UCI HAR dataset page](https://archive.ics.uci.edu/dataset/240/human+activity+recognition+using+smartphones), unzip it, and place the contents in `data/raw/UCI HAR Dataset/` so that `train/` and `test/` sit directly inside it.
+
+## Shared participant split
+Every method uses the same split, defined in `data/splits/participants.json` and created by `src/make_splits.py` (seed 42).
+- **Test:** the dataset's 9 test participants. Used only for the final evaluation.
+- **Training:** the 21 training participants, divided into 7 cross-validation folds of 3 participants each. Every fold holds out whole participants.
+
+Load this file instead of re-creating the split.
+
