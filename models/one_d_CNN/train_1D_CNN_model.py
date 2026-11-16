@@ -29,7 +29,6 @@ DATA = Path("data/raw/UCI HAR Dataset")
 # The derived features will not be used for the CNN.
 # The CNN will use the raw data because it will learn the features itself. 
 
-
 SIGNALS = DATA / "train" / "Inertial Signals"
 
 print("Making sure the Inertial Signals folder path is correct.", SIGNALS.is_dir())
@@ -38,3 +37,37 @@ print("\nThe files in this Inertial Signals folder:")
 for path in sorted(SIGNALS.glob("*.txt")):
     print(path.name)
 
+body_acc_x = np.loadtxt(SIGNALS / "body_acc_x_train.txt", dtype = np.float32)
+
+print("\nShape:", body_acc_x.shape)
+print("First window, first 10 readings:", body_acc_x[0, :10])
+
+
+# The order will determine which index corresponds to which channel
+channel_names = [
+    "body_acc_x",
+    "body_acc_y",
+    "body_acc_z",
+    "body_gyro_x",
+    "body_gyro_y",
+    "body_gyro_z",
+    "total_acc_x",
+    "total_acc_y",
+    "total_acc_z",
+]
+
+channels = []
+
+for name in channel_names:
+    channel = np.loadtxt(
+        SIGNALS / f"{name}_train.txt",
+        dtype=np.float32,
+    )
+    channels.append(channel)
+
+# Insert a channel axis between windows and time steps. 
+X = np.stack(channels, axis=1)
+
+# Now we know that the first index is the window, the second the channel, and the third the time step.
+print("First index is the window, the second the channel, and the third the time step.")
+print("\nCombined shape:", X.shape)
