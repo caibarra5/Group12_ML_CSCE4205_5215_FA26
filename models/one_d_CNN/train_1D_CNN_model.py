@@ -98,3 +98,32 @@ print("\nClasses: ", np.unique(y))
 
 print("\nParticipants: ", np.unique(subjects))
 
+# Now we need to separate the training data into training and validation sets using the participants ID's
+
+assert set(subjects.tolist()) == set(train_ids), "The subjects loaded and the train ids from our setup don't match. Check the participants.json file and the data loading code."
+
+# print("\nFirst 40 train_ids values: ", train_ids[:40])
+# print("\nFirst 40 subjects values: ", subjects[:40])
+
+# Writing the CV loop first to start building the model hyperparameter tuning.
+for fold_index, validation_ids in enumerate(folds):
+
+    # These are this CV loop's training participants' ids.
+    training_ids = [participant for participant in train_ids if participant not in validation_ids]
+
+    # These are the boolean masks that separate the training and validation data for this CV loop. Each window is done by a participant.
+    train_mask = np.isin(subjects, training_ids)
+    val_mask = np.isin(subjects, validation_ids)
+
+    X_train = X[train_mask]
+    y_train = y[train_mask]
+
+    X_val = X[val_mask]
+    y_val = y[val_mask]
+
+    # Print just to check 
+    print(f"\nFold {fold_index + 1}:")
+    print(f"Training participants: {training_ids}")
+    print(f"Validation participants: {validation_ids}")
+    print(f"X_train.shape: {X_train.shape}, y_train.shape: {y_train.shape}")
+    print(f"X_val.shape: {X_val.shape}, y_val.shape: {y_val.shape}")
