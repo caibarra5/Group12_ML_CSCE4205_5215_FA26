@@ -18,9 +18,9 @@ train_ids = splits["train_participants"]
 test_ids = splits["test_participants"]
 folds = splits["cv_folds"]
 
-print(f"Train participants: {train_ids}")
-print(f"Test participants: {test_ids}")
-print(f"Folds: {folds}")
+print(f"\nTrain participants: {train_ids}")
+print(f"\nTest participants: {test_ids}")
+print(f"\nFolds: {folds}")
 
 # Now let's start checking out the data
 
@@ -31,7 +31,7 @@ DATA = Path("data/raw/UCI HAR Dataset")
 
 SIGNALS = DATA / "train" / "Inertial Signals"
 
-print("Making sure the Inertial Signals folder path is correct.", SIGNALS.is_dir())
+print("\nMaking sure the Inertial Signals folder path is there.", SIGNALS.is_dir())
 
 print("\nThe files in this Inertial Signals folder:")
 for path in sorted(SIGNALS.glob("*.txt")):
@@ -39,11 +39,12 @@ for path in sorted(SIGNALS.glob("*.txt")):
 
 body_acc_x = np.loadtxt(SIGNALS / "body_acc_x_train.txt", dtype = np.float32)
 
-print("\nShape:", body_acc_x.shape)
-print("First window, first 10 readings:", body_acc_x[0, :10])
+# print("\nShape:", body_acc_x.shape)
+# print("First window, first 10 readings:", body_acc_x[0, :10])
 
 
 # The order will determine which index corresponds to which channel
+print("\n LOADING TRAINING DATA.")
 channel_names = [
     "body_acc_x",
     "body_acc_y",
@@ -58,7 +59,9 @@ channel_names = [
 
 channels = []
 
+print("\nLoading the channels in the order specified by channel_names.")
 for name in channel_names:
+    print(f"Loading channel: {name}")
     channel = np.loadtxt(
         SIGNALS / f"{name}_train.txt",
         dtype=np.float32,
@@ -66,8 +69,32 @@ for name in channel_names:
     channels.append(channel)
 
 # Insert a channel axis between windows and time steps. 
+print("\nInserting a channel axis between windows and time steps.")
 X = np.stack(channels, axis=1)
 
-# Now we know that the first index is the window, the second the channel, and the third the time step.
-print("First index is the window, the second the channel, and the third the time step.")
+# Now we know that the coordinates are (window, channel, time step)
+print("\nFirst index is the window, the second the channel, and the third the time step.")
 print("\nCombined shape:", X.shape)
+
+print("\nLOADING TRAINING LABELS.")
+
+# Each window corresponds to one activity label.
+
+y = np.loadtxt(DATA/"train"/"y_train.txt", dtype=np.int64)
+
+# Shift activity IDs to start from 0 instead of 1
+y = y - 1
+
+print("\nLOADING TRAINING SUBJECTS.")
+subjects = np.loadtxt(DATA / "train" / "subject_train.txt", dtype = np.int64)
+
+# Checking that each window has a label and a participant ID
+assert X.shape[0] == y.shape[0] == subjects.shape[0], "The number of windows, labels, and subjects should be the same."
+
+
+print("\nX.shape: ",X.shape, "y.shape: ", y.shape, "subjects.shape: ", subjects.shape)
+
+print("\nClasses: ", np.unique(y))
+
+print("\nParticipants: ", np.unique(subjects))
+
