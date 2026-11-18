@@ -125,6 +125,10 @@ param_grid = {
     "num_filters": [32, 64]
 }
 
+print("Hyperparameter grid:")
+for param, values in param_grid.items():
+    print(f"  {param}: {values}")
+
 keys, values = zip(*param_grid.items())
 hyperparameter_configs = [dict(zip(keys, v)) for v in product(*values)]
 
