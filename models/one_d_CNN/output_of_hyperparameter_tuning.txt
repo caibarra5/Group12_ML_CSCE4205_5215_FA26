@@ -1,0 +1,801 @@
+Train participants: [1, 3, 5, 6, 7, 8, 11, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 28, 29, 30]
+
+Test participants: [2, 4, 9, 10, 12, 13, 18, 20, 24]
+
+Folds: [[8, 23, 29], [7, 16, 22], [11, 25, 28], [17, 21, 27], [3, 5, 19], [14, 15, 26], [1, 6, 30]]
+
+Making sure the Inertial Signals folder path is there. True
+
+Loading the channels in the order specified by channel_names.
+
+Combined shape: (7352, 9, 128)
+
+X.shape: (7352, 9, 128), y.shape: (7352,), subjects.shape: (7352,)
+Classes: [0 1 2 3 4 5]
+Participants: [ 1  3  5  6  7  8 11 14 15 16 17 19 21 22 23 25 26 27 28 29 30]
+Hyperparameter grid:
+  learning_rate: [0.01, 0.001, 0.0005, 0.0001]
+  kernel_size: [3, 5, 7, 9]
+  num_filters: [16, 32, 64, 128]
+
+Total hyperparameter configurations to evaluate: 64
+Using device: cpu
+
+Starting hyperparameter tuning...
+
+========================================
+Evaluating Config 1/64: {'learning_rate': 0.01, 'kernel_size': 3, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.9358
+  -> Fold 2 Val Accuracy: 0.8231
+  -> Fold 3 Val Accuracy: 0.8302
+  -> Fold 4 Val Accuracy: 0.9019
+  -> Fold 5 Val Accuracy: 0.9093
+  -> Fold 6 Val Accuracy: 0.8945
+  -> Fold 7 Val Accuracy: 0.9697
+Mean CV Accuracy for Config 1: 0.8949
+
+========================================
+Evaluating Config 2/64: {'learning_rate': 0.01, 'kernel_size': 3, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8195
+  -> Fold 2 Val Accuracy: 0.8422
+  -> Fold 3 Val Accuracy: 0.8600
+  -> Fold 4 Val Accuracy: 0.9132
+  -> Fold 5 Val Accuracy: 0.9332
+  -> Fold 6 Val Accuracy: 0.9214
+  -> Fold 7 Val Accuracy: 0.9592
+Mean CV Accuracy for Config 2: 0.8927
+
+========================================
+Evaluating Config 3/64: {'learning_rate': 0.01, 'kernel_size': 3, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9097
+  -> Fold 2 Val Accuracy: 0.8161
+  -> Fold 3 Val Accuracy: 0.9051
+  -> Fold 4 Val Accuracy: 0.9010
+  -> Fold 5 Val Accuracy: 0.8853
+  -> Fold 6 Val Accuracy: 0.9080
+  -> Fold 7 Val Accuracy: 0.9507
+Mean CV Accuracy for Config 3: 0.8966
+
+========================================
+Evaluating Config 4/64: {'learning_rate': 0.01, 'kernel_size': 3, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8686
+  -> Fold 2 Val Accuracy: 0.8312
+  -> Fold 3 Val Accuracy: 0.8826
+  -> Fold 4 Val Accuracy: 0.9158
+  -> Fold 5 Val Accuracy: 0.9272
+  -> Fold 6 Val Accuracy: 0.8993
+  -> Fold 7 Val Accuracy: 0.9716
+Mean CV Accuracy for Config 4: 0.8995
+
+========================================
+Evaluating Config 5/64: {'learning_rate': 0.01, 'kernel_size': 5, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8947
+  -> Fold 2 Val Accuracy: 0.7920
+  -> Fold 3 Val Accuracy: 0.9033
+  -> Fold 4 Val Accuracy: 0.9106
+  -> Fold 5 Val Accuracy: 0.9103
+  -> Fold 6 Val Accuracy: 0.9032
+  -> Fold 7 Val Accuracy: 0.9678
+Mean CV Accuracy for Config 5: 0.8974
+
+========================================
+Evaluating Config 6/64: {'learning_rate': 0.01, 'kernel_size': 5, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.9157
+  -> Fold 2 Val Accuracy: 0.8080
+  -> Fold 3 Val Accuracy: 0.8862
+  -> Fold 4 Val Accuracy: 0.8993
+  -> Fold 5 Val Accuracy: 0.9611
+  -> Fold 6 Val Accuracy: 0.8658
+  -> Fold 7 Val Accuracy: 0.9393
+Mean CV Accuracy for Config 6: 0.8965
+
+========================================
+Evaluating Config 7/64: {'learning_rate': 0.01, 'kernel_size': 5, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9338
+  -> Fold 2 Val Accuracy: 0.8171
+  -> Fold 3 Val Accuracy: 0.8663
+  -> Fold 4 Val Accuracy: 0.9149
+  -> Fold 5 Val Accuracy: 0.9521
+  -> Fold 6 Val Accuracy: 0.9012
+  -> Fold 7 Val Accuracy: 0.9678
+Mean CV Accuracy for Config 7: 0.9076
+
+========================================
+Evaluating Config 8/64: {'learning_rate': 0.01, 'kernel_size': 5, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9298
+  -> Fold 2 Val Accuracy: 0.8613
+  -> Fold 3 Val Accuracy: 0.9033
+  -> Fold 4 Val Accuracy: 0.9002
+  -> Fold 5 Val Accuracy: 0.9342
+  -> Fold 6 Val Accuracy: 0.8562
+  -> Fold 7 Val Accuracy: 0.9526
+Mean CV Accuracy for Config 8: 0.9054
+
+========================================
+Evaluating Config 9/64: {'learning_rate': 0.01, 'kernel_size': 7, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.9258
+  -> Fold 2 Val Accuracy: 0.8362
+  -> Fold 3 Val Accuracy: 0.8663
+  -> Fold 4 Val Accuracy: 0.9193
+  -> Fold 5 Val Accuracy: 0.8993
+  -> Fold 6 Val Accuracy: 0.8830
+  -> Fold 7 Val Accuracy: 0.9716
+Mean CV Accuracy for Config 9: 0.9002
+
+========================================
+Evaluating Config 10/64: {'learning_rate': 0.01, 'kernel_size': 7, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.9318
+  -> Fold 2 Val Accuracy: 0.8764
+  -> Fold 3 Val Accuracy: 0.8844
+  -> Fold 4 Val Accuracy: 0.9036
+  -> Fold 5 Val Accuracy: 0.9302
+  -> Fold 6 Val Accuracy: 0.9175
+  -> Fold 7 Val Accuracy: 0.9763
+Mean CV Accuracy for Config 10: 0.9172
+
+========================================
+Evaluating Config 11/64: {'learning_rate': 0.01, 'kernel_size': 7, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.8897
+  -> Fold 2 Val Accuracy: 0.8000
+  -> Fold 3 Val Accuracy: 0.8817
+  -> Fold 4 Val Accuracy: 0.9019
+  -> Fold 5 Val Accuracy: 0.9153
+  -> Fold 6 Val Accuracy: 0.8725
+  -> Fold 7 Val Accuracy: 0.9517
+Mean CV Accuracy for Config 11: 0.8875
+
+========================================
+Evaluating Config 12/64: {'learning_rate': 0.01, 'kernel_size': 7, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8947
+  -> Fold 2 Val Accuracy: 0.8392
+  -> Fold 3 Val Accuracy: 0.8979
+  -> Fold 4 Val Accuracy: 0.9149
+  -> Fold 5 Val Accuracy: 0.9462
+  -> Fold 6 Val Accuracy: 0.9243
+  -> Fold 7 Val Accuracy: 0.9668
+Mean CV Accuracy for Config 12: 0.9120
+
+========================================
+Evaluating Config 13/64: {'learning_rate': 0.01, 'kernel_size': 9, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.9087
+  -> Fold 2 Val Accuracy: 0.7879
+  -> Fold 3 Val Accuracy: 0.8762
+  -> Fold 4 Val Accuracy: 0.9141
+  -> Fold 5 Val Accuracy: 0.9063
+  -> Fold 6 Val Accuracy: 0.8849
+  -> Fold 7 Val Accuracy: 0.9573
+Mean CV Accuracy for Config 13: 0.8908
+
+========================================
+Evaluating Config 14/64: {'learning_rate': 0.01, 'kernel_size': 9, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8857
+  -> Fold 2 Val Accuracy: 0.8412
+  -> Fold 3 Val Accuracy: 0.8771
+  -> Fold 4 Val Accuracy: 0.9453
+  -> Fold 5 Val Accuracy: 0.9252
+  -> Fold 6 Val Accuracy: 0.9271
+  -> Fold 7 Val Accuracy: 0.9365
+Mean CV Accuracy for Config 14: 0.9055
+
+========================================
+Evaluating Config 15/64: {'learning_rate': 0.01, 'kernel_size': 9, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9107
+  -> Fold 2 Val Accuracy: 0.8010
+  -> Fold 3 Val Accuracy: 0.9088
+  -> Fold 4 Val Accuracy: 0.9028
+  -> Fold 5 Val Accuracy: 0.9472
+  -> Fold 6 Val Accuracy: 0.9128
+  -> Fold 7 Val Accuracy: 0.9829
+Mean CV Accuracy for Config 15: 0.9094
+
+========================================
+Evaluating Config 16/64: {'learning_rate': 0.01, 'kernel_size': 9, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8806
+  -> Fold 2 Val Accuracy: 0.7487
+  -> Fold 3 Val Accuracy: 0.8853
+  -> Fold 4 Val Accuracy: 0.9149
+  -> Fold 5 Val Accuracy: 0.9172
+  -> Fold 6 Val Accuracy: 0.9233
+  -> Fold 7 Val Accuracy: 0.9545
+Mean CV Accuracy for Config 16: 0.8892
+
+========================================
+Evaluating Config 17/64: {'learning_rate': 0.001, 'kernel_size': 3, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8375
+  -> Fold 2 Val Accuracy: 0.7598
+  -> Fold 3 Val Accuracy: 0.7687
+  -> Fold 4 Val Accuracy: 0.8290
+  -> Fold 5 Val Accuracy: 0.8215
+  -> Fold 6 Val Accuracy: 0.8993
+  -> Fold 7 Val Accuracy: 0.9166
+Mean CV Accuracy for Config 17: 0.8332
+
+========================================
+Evaluating Config 18/64: {'learning_rate': 0.001, 'kernel_size': 3, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8706
+  -> Fold 2 Val Accuracy: 0.7950
+  -> Fold 3 Val Accuracy: 0.8130
+  -> Fold 4 Val Accuracy: 0.8359
+  -> Fold 5 Val Accuracy: 0.8594
+  -> Fold 6 Val Accuracy: 0.8495
+  -> Fold 7 Val Accuracy: 0.9431
+Mean CV Accuracy for Config 18: 0.8524
+
+========================================
+Evaluating Config 19/64: {'learning_rate': 0.001, 'kernel_size': 3, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9228
+  -> Fold 2 Val Accuracy: 0.7980
+  -> Fold 3 Val Accuracy: 0.8509
+  -> Fold 4 Val Accuracy: 0.8993
+  -> Fold 5 Val Accuracy: 0.9113
+  -> Fold 6 Val Accuracy: 0.9041
+  -> Fold 7 Val Accuracy: 0.9573
+Mean CV Accuracy for Config 19: 0.8920
+
+========================================
+Evaluating Config 20/64: {'learning_rate': 0.001, 'kernel_size': 3, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9047
+  -> Fold 2 Val Accuracy: 0.7889
+  -> Fold 3 Val Accuracy: 0.8528
+  -> Fold 4 Val Accuracy: 0.9062
+  -> Fold 5 Val Accuracy: 0.8863
+  -> Fold 6 Val Accuracy: 0.9060
+  -> Fold 7 Val Accuracy: 0.9592
+Mean CV Accuracy for Config 20: 0.8863
+
+========================================
+Evaluating Config 21/64: {'learning_rate': 0.001, 'kernel_size': 5, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8977
+  -> Fold 2 Val Accuracy: 0.7417
+  -> Fold 3 Val Accuracy: 0.8844
+  -> Fold 4 Val Accuracy: 0.8628
+  -> Fold 5 Val Accuracy: 0.8634
+  -> Fold 6 Val Accuracy: 0.8840
+  -> Fold 7 Val Accuracy: 0.9289
+Mean CV Accuracy for Config 21: 0.8661
+
+========================================
+Evaluating Config 22/64: {'learning_rate': 0.001, 'kernel_size': 5, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8977
+  -> Fold 2 Val Accuracy: 0.7990
+  -> Fold 3 Val Accuracy: 0.8636
+  -> Fold 4 Val Accuracy: 0.9227
+  -> Fold 5 Val Accuracy: 0.9033
+  -> Fold 6 Val Accuracy: 0.8869
+  -> Fold 7 Val Accuracy: 0.9659
+Mean CV Accuracy for Config 22: 0.8913
+
+========================================
+Evaluating Config 23/64: {'learning_rate': 0.001, 'kernel_size': 5, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9288
+  -> Fold 2 Val Accuracy: 0.8352
+  -> Fold 3 Val Accuracy: 0.8889
+  -> Fold 4 Val Accuracy: 0.9089
+  -> Fold 5 Val Accuracy: 0.8913
+  -> Fold 6 Val Accuracy: 0.9080
+  -> Fold 7 Val Accuracy: 0.9754
+Mean CV Accuracy for Config 23: 0.9052
+
+========================================
+Evaluating Config 24/64: {'learning_rate': 0.001, 'kernel_size': 5, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9208
+  -> Fold 2 Val Accuracy: 0.8432
+  -> Fold 3 Val Accuracy: 0.8835
+  -> Fold 4 Val Accuracy: 0.9106
+  -> Fold 5 Val Accuracy: 0.9232
+  -> Fold 6 Val Accuracy: 0.8869
+  -> Fold 7 Val Accuracy: 0.9706
+Mean CV Accuracy for Config 24: 0.9055
+
+========================================
+Evaluating Config 25/64: {'learning_rate': 0.001, 'kernel_size': 7, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.9067
+  -> Fold 2 Val Accuracy: 0.7568
+  -> Fold 3 Val Accuracy: 0.7895
+  -> Fold 4 Val Accuracy: 0.8368
+  -> Fold 5 Val Accuracy: 0.8724
+  -> Fold 6 Val Accuracy: 0.8926
+  -> Fold 7 Val Accuracy: 0.9659
+Mean CV Accuracy for Config 25: 0.8601
+
+========================================
+Evaluating Config 26/64: {'learning_rate': 0.001, 'kernel_size': 7, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8887
+  -> Fold 2 Val Accuracy: 0.8171
+  -> Fold 3 Val Accuracy: 0.8392
+  -> Fold 4 Val Accuracy: 0.9366
+  -> Fold 5 Val Accuracy: 0.8754
+  -> Fold 6 Val Accuracy: 0.9060
+  -> Fold 7 Val Accuracy: 0.9678
+Mean CV Accuracy for Config 26: 0.8901
+
+========================================
+Evaluating Config 27/64: {'learning_rate': 0.001, 'kernel_size': 7, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.8977
+  -> Fold 2 Val Accuracy: 0.8121
+  -> Fold 3 Val Accuracy: 0.8266
+  -> Fold 4 Val Accuracy: 0.9106
+  -> Fold 5 Val Accuracy: 0.9222
+  -> Fold 6 Val Accuracy: 0.8782
+  -> Fold 7 Val Accuracy: 0.9716
+Mean CV Accuracy for Config 27: 0.8884
+
+========================================
+Evaluating Config 28/64: {'learning_rate': 0.001, 'kernel_size': 7, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9067
+  -> Fold 2 Val Accuracy: 0.8382
+  -> Fold 3 Val Accuracy: 0.8934
+  -> Fold 4 Val Accuracy: 0.9227
+  -> Fold 5 Val Accuracy: 0.9452
+  -> Fold 6 Val Accuracy: 0.9099
+  -> Fold 7 Val Accuracy: 0.9668
+Mean CV Accuracy for Config 28: 0.9118
+
+========================================
+Evaluating Config 29/64: {'learning_rate': 0.001, 'kernel_size': 9, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.9127
+  -> Fold 2 Val Accuracy: 0.8151
+  -> Fold 3 Val Accuracy: 0.8790
+  -> Fold 4 Val Accuracy: 0.9097
+  -> Fold 5 Val Accuracy: 0.8953
+  -> Fold 6 Val Accuracy: 0.8917
+  -> Fold 7 Val Accuracy: 0.9706
+Mean CV Accuracy for Config 29: 0.8963
+
+========================================
+Evaluating Config 30/64: {'learning_rate': 0.001, 'kernel_size': 9, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.9308
+  -> Fold 2 Val Accuracy: 0.8392
+  -> Fold 3 Val Accuracy: 0.8573
+  -> Fold 4 Val Accuracy: 0.9106
+  -> Fold 5 Val Accuracy: 0.9123
+  -> Fold 6 Val Accuracy: 0.8667
+  -> Fold 7 Val Accuracy: 0.9469
+Mean CV Accuracy for Config 30: 0.8948
+
+========================================
+Evaluating Config 31/64: {'learning_rate': 0.001, 'kernel_size': 9, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9318
+  -> Fold 2 Val Accuracy: 0.8503
+  -> Fold 3 Val Accuracy: 0.8943
+  -> Fold 4 Val Accuracy: 0.9158
+  -> Fold 5 Val Accuracy: 0.9462
+  -> Fold 6 Val Accuracy: 0.9329
+  -> Fold 7 Val Accuracy: 0.9441
+Mean CV Accuracy for Config 31: 0.9165
+
+========================================
+Evaluating Config 32/64: {'learning_rate': 0.001, 'kernel_size': 9, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8997
+  -> Fold 2 Val Accuracy: 0.8553
+  -> Fold 3 Val Accuracy: 0.8826
+  -> Fold 4 Val Accuracy: 0.9167
+  -> Fold 5 Val Accuracy: 0.9442
+  -> Fold 6 Val Accuracy: 0.8945
+  -> Fold 7 Val Accuracy: 0.9725
+Mean CV Accuracy for Config 32: 0.9093
+
+========================================
+Evaluating Config 33/64: {'learning_rate': 0.0005, 'kernel_size': 3, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.7854
+  -> Fold 2 Val Accuracy: 0.6683
+  -> Fold 3 Val Accuracy: 0.7687
+  -> Fold 4 Val Accuracy: 0.8108
+  -> Fold 5 Val Accuracy: 0.7886
+  -> Fold 6 Val Accuracy: 0.8102
+  -> Fold 7 Val Accuracy: 0.8104
+Mean CV Accuracy for Config 33: 0.7775
+
+========================================
+Evaluating Config 34/64: {'learning_rate': 0.0005, 'kernel_size': 3, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8556
+  -> Fold 2 Val Accuracy: 0.7357
+  -> Fold 3 Val Accuracy: 0.8166
+  -> Fold 4 Val Accuracy: 0.8394
+  -> Fold 5 Val Accuracy: 0.8116
+  -> Fold 6 Val Accuracy: 0.8658
+  -> Fold 7 Val Accuracy: 0.8578
+Mean CV Accuracy for Config 34: 0.8261
+
+========================================
+Evaluating Config 35/64: {'learning_rate': 0.0005, 'kernel_size': 3, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.8656
+  -> Fold 2 Val Accuracy: 0.7910
+  -> Fold 3 Val Accuracy: 0.7895
+  -> Fold 4 Val Accuracy: 0.8550
+  -> Fold 5 Val Accuracy: 0.8365
+  -> Fold 6 Val Accuracy: 0.8744
+  -> Fold 7 Val Accuracy: 0.9024
+Mean CV Accuracy for Config 35: 0.8449
+
+========================================
+Evaluating Config 36/64: {'learning_rate': 0.0005, 'kernel_size': 3, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8776
+  -> Fold 2 Val Accuracy: 0.7920
+  -> Fold 3 Val Accuracy: 0.8482
+  -> Fold 4 Val Accuracy: 0.8880
+  -> Fold 5 Val Accuracy: 0.8774
+  -> Fold 6 Val Accuracy: 0.8648
+  -> Fold 7 Val Accuracy: 0.9555
+Mean CV Accuracy for Config 36: 0.8719
+
+========================================
+Evaluating Config 37/64: {'learning_rate': 0.0005, 'kernel_size': 5, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8877
+  -> Fold 2 Val Accuracy: 0.7578
+  -> Fold 3 Val Accuracy: 0.8464
+  -> Fold 4 Val Accuracy: 0.7960
+  -> Fold 5 Val Accuracy: 0.8295
+  -> Fold 6 Val Accuracy: 0.8658
+  -> Fold 7 Val Accuracy: 0.8464
+Mean CV Accuracy for Config 37: 0.8328
+
+========================================
+Evaluating Config 38/64: {'learning_rate': 0.0005, 'kernel_size': 5, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8686
+  -> Fold 2 Val Accuracy: 0.7668
+  -> Fold 3 Val Accuracy: 0.8528
+  -> Fold 4 Val Accuracy: 0.8359
+  -> Fold 5 Val Accuracy: 0.8445
+  -> Fold 6 Val Accuracy: 0.8859
+  -> Fold 7 Val Accuracy: 0.9318
+Mean CV Accuracy for Config 38: 0.8552
+
+========================================
+Evaluating Config 39/64: {'learning_rate': 0.0005, 'kernel_size': 5, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9157
+  -> Fold 2 Val Accuracy: 0.8261
+  -> Fold 3 Val Accuracy: 0.8564
+  -> Fold 4 Val Accuracy: 0.9054
+  -> Fold 5 Val Accuracy: 0.8554
+  -> Fold 6 Val Accuracy: 0.8936
+  -> Fold 7 Val Accuracy: 0.9630
+Mean CV Accuracy for Config 39: 0.8880
+
+========================================
+Evaluating Config 40/64: {'learning_rate': 0.0005, 'kernel_size': 5, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9248
+  -> Fold 2 Val Accuracy: 0.7829
+  -> Fold 3 Val Accuracy: 0.8537
+  -> Fold 4 Val Accuracy: 0.9462
+  -> Fold 5 Val Accuracy: 0.8983
+  -> Fold 6 Val Accuracy: 0.9214
+  -> Fold 7 Val Accuracy: 0.9668
+Mean CV Accuracy for Config 40: 0.8991
+
+========================================
+Evaluating Config 41/64: {'learning_rate': 0.0005, 'kernel_size': 7, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8826
+  -> Fold 2 Val Accuracy: 0.7970
+  -> Fold 3 Val Accuracy: 0.8455
+  -> Fold 4 Val Accuracy: 0.8889
+  -> Fold 5 Val Accuracy: 0.8265
+  -> Fold 6 Val Accuracy: 0.8754
+  -> Fold 7 Val Accuracy: 0.9355
+Mean CV Accuracy for Config 41: 0.8645
+
+========================================
+Evaluating Config 42/64: {'learning_rate': 0.0005, 'kernel_size': 7, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8656
+  -> Fold 2 Val Accuracy: 0.8070
+  -> Fold 3 Val Accuracy: 0.8573
+  -> Fold 4 Val Accuracy: 0.8698
+  -> Fold 5 Val Accuracy: 0.8534
+  -> Fold 6 Val Accuracy: 0.8476
+  -> Fold 7 Val Accuracy: 0.9621
+Mean CV Accuracy for Config 42: 0.8661
+
+========================================
+Evaluating Config 43/64: {'learning_rate': 0.0005, 'kernel_size': 7, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9007
+  -> Fold 2 Val Accuracy: 0.7910
+  -> Fold 3 Val Accuracy: 0.8790
+  -> Fold 4 Val Accuracy: 0.9010
+  -> Fold 5 Val Accuracy: 0.9073
+  -> Fold 6 Val Accuracy: 0.8897
+  -> Fold 7 Val Accuracy: 0.9649
+Mean CV Accuracy for Config 43: 0.8905
+
+========================================
+Evaluating Config 44/64: {'learning_rate': 0.0005, 'kernel_size': 7, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8977
+  -> Fold 2 Val Accuracy: 0.8322
+  -> Fold 3 Val Accuracy: 0.8573
+  -> Fold 4 Val Accuracy: 0.9123
+  -> Fold 5 Val Accuracy: 0.9192
+  -> Fold 6 Val Accuracy: 0.8955
+  -> Fold 7 Val Accuracy: 0.9668
+Mean CV Accuracy for Config 44: 0.8973
+
+========================================
+Evaluating Config 45/64: {'learning_rate': 0.0005, 'kernel_size': 9, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.8957
+  -> Fold 2 Val Accuracy: 0.7819
+  -> Fold 3 Val Accuracy: 0.8582
+  -> Fold 4 Val Accuracy: 0.8646
+  -> Fold 5 Val Accuracy: 0.8245
+  -> Fold 6 Val Accuracy: 0.8945
+  -> Fold 7 Val Accuracy: 0.9365
+Mean CV Accuracy for Config 45: 0.8651
+
+========================================
+Evaluating Config 46/64: {'learning_rate': 0.0005, 'kernel_size': 9, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.9218
+  -> Fold 2 Val Accuracy: 0.7970
+  -> Fold 3 Val Accuracy: 0.8636
+  -> Fold 4 Val Accuracy: 0.8507
+  -> Fold 5 Val Accuracy: 0.8684
+  -> Fold 6 Val Accuracy: 0.9118
+  -> Fold 7 Val Accuracy: 0.9450
+Mean CV Accuracy for Config 46: 0.8798
+
+========================================
+Evaluating Config 47/64: {'learning_rate': 0.0005, 'kernel_size': 9, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.9168
+  -> Fold 2 Val Accuracy: 0.8613
+  -> Fold 3 Val Accuracy: 0.8835
+  -> Fold 4 Val Accuracy: 0.9054
+  -> Fold 5 Val Accuracy: 0.8973
+  -> Fold 6 Val Accuracy: 0.9175
+  -> Fold 7 Val Accuracy: 0.9469
+Mean CV Accuracy for Config 47: 0.9041
+
+========================================
+Evaluating Config 48/64: {'learning_rate': 0.0005, 'kernel_size': 9, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.9318
+  -> Fold 2 Val Accuracy: 0.8683
+  -> Fold 3 Val Accuracy: 0.8808
+  -> Fold 4 Val Accuracy: 0.9123
+  -> Fold 5 Val Accuracy: 0.8913
+  -> Fold 6 Val Accuracy: 0.8984
+  -> Fold 7 Val Accuracy: 0.9706
+Mean CV Accuracy for Config 48: 0.9076
+
+========================================
+Evaluating Config 49/64: {'learning_rate': 0.0001, 'kernel_size': 3, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.4674
+  -> Fold 2 Val Accuracy: 0.5769
+  -> Fold 3 Val Accuracy: 0.5944
+  -> Fold 4 Val Accuracy: 0.4010
+  -> Fold 5 Val Accuracy: 0.4377
+  -> Fold 6 Val Accuracy: 0.4871
+  -> Fold 7 Val Accuracy: 0.5393
+Mean CV Accuracy for Config 49: 0.5005
+
+========================================
+Evaluating Config 50/64: {'learning_rate': 0.0001, 'kernel_size': 3, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.6610
+  -> Fold 2 Val Accuracy: 0.6563
+  -> Fold 3 Val Accuracy: 0.6134
+  -> Fold 4 Val Accuracy: 0.6727
+  -> Fold 5 Val Accuracy: 0.6191
+  -> Fold 6 Val Accuracy: 0.6079
+  -> Fold 7 Val Accuracy: 0.6635
+Mean CV Accuracy for Config 50: 0.6420
+
+========================================
+Evaluating Config 51/64: {'learning_rate': 0.0001, 'kernel_size': 3, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.7282
+  -> Fold 2 Val Accuracy: 0.6824
+  -> Fold 3 Val Accuracy: 0.7254
+  -> Fold 4 Val Accuracy: 0.7205
+  -> Fold 5 Val Accuracy: 0.7328
+  -> Fold 6 Val Accuracy: 0.6702
+  -> Fold 7 Val Accuracy: 0.7251
+Mean CV Accuracy for Config 51: 0.7121
+
+========================================
+Evaluating Config 52/64: {'learning_rate': 0.0001, 'kernel_size': 3, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8465
+  -> Fold 2 Val Accuracy: 0.7357
+  -> Fold 3 Val Accuracy: 0.7371
+  -> Fold 4 Val Accuracy: 0.7491
+  -> Fold 5 Val Accuracy: 0.7896
+  -> Fold 6 Val Accuracy: 0.8351
+  -> Fold 7 Val Accuracy: 0.8209
+Mean CV Accuracy for Config 52: 0.7877
+
+========================================
+Evaluating Config 53/64: {'learning_rate': 0.0001, 'kernel_size': 5, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.5717
+  -> Fold 2 Val Accuracy: 0.6291
+  -> Fold 3 Val Accuracy: 0.6387
+  -> Fold 4 Val Accuracy: 0.5339
+  -> Fold 5 Val Accuracy: 0.6580
+  -> Fold 6 Val Accuracy: 0.5513
+  -> Fold 7 Val Accuracy: 0.6720
+Mean CV Accuracy for Config 53: 0.6078
+
+========================================
+Evaluating Config 54/64: {'learning_rate': 0.0001, 'kernel_size': 5, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.7492
+  -> Fold 2 Val Accuracy: 0.6291
+  -> Fold 3 Val Accuracy: 0.6676
+  -> Fold 4 Val Accuracy: 0.7153
+  -> Fold 5 Val Accuracy: 0.6849
+  -> Fold 6 Val Accuracy: 0.7229
+  -> Fold 7 Val Accuracy: 0.7223
+Mean CV Accuracy for Config 54: 0.6988
+
+========================================
+Evaluating Config 55/64: {'learning_rate': 0.0001, 'kernel_size': 5, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.7593
+  -> Fold 2 Val Accuracy: 0.7116
+  -> Fold 3 Val Accuracy: 0.7019
+  -> Fold 4 Val Accuracy: 0.7734
+  -> Fold 5 Val Accuracy: 0.7797
+  -> Fold 6 Val Accuracy: 0.7603
+  -> Fold 7 Val Accuracy: 0.8133
+Mean CV Accuracy for Config 55: 0.7571
+
+========================================
+Evaluating Config 56/64: {'learning_rate': 0.0001, 'kernel_size': 5, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.7844
+  -> Fold 2 Val Accuracy: 0.7487
+  -> Fold 3 Val Accuracy: 0.8094
+  -> Fold 4 Val Accuracy: 0.7847
+  -> Fold 5 Val Accuracy: 0.8126
+  -> Fold 6 Val Accuracy: 0.8150
+  -> Fold 7 Val Accuracy: 0.8474
+Mean CV Accuracy for Config 56: 0.8003
+
+========================================
+Evaluating Config 57/64: {'learning_rate': 0.0001, 'kernel_size': 7, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.7292
+  -> Fold 2 Val Accuracy: 0.7437
+  -> Fold 3 Val Accuracy: 0.6161
+  -> Fold 4 Val Accuracy: 0.5790
+  -> Fold 5 Val Accuracy: 0.6560
+  -> Fold 6 Val Accuracy: 0.6817
+  -> Fold 7 Val Accuracy: 0.7005
+Mean CV Accuracy for Config 57: 0.6723
+
+========================================
+Evaluating Config 58/64: {'learning_rate': 0.0001, 'kernel_size': 7, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.7182
+  -> Fold 2 Val Accuracy: 0.6633
+  -> Fold 3 Val Accuracy: 0.7037
+  -> Fold 4 Val Accuracy: 0.7144
+  -> Fold 5 Val Accuracy: 0.7079
+  -> Fold 6 Val Accuracy: 0.6932
+  -> Fold 7 Val Accuracy: 0.7431
+Mean CV Accuracy for Config 58: 0.7063
+
+========================================
+Evaluating Config 59/64: {'learning_rate': 0.0001, 'kernel_size': 7, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.8395
+  -> Fold 2 Val Accuracy: 0.7518
+  -> Fold 3 Val Accuracy: 0.7850
+  -> Fold 4 Val Accuracy: 0.7951
+  -> Fold 5 Val Accuracy: 0.7617
+  -> Fold 6 Val Accuracy: 0.7987
+  -> Fold 7 Val Accuracy: 0.8701
+Mean CV Accuracy for Config 59: 0.8003
+
+========================================
+Evaluating Config 60/64: {'learning_rate': 0.0001, 'kernel_size': 7, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8405
+  -> Fold 2 Val Accuracy: 0.7698
+  -> Fold 3 Val Accuracy: 0.8717
+  -> Fold 4 Val Accuracy: 0.7943
+  -> Fold 5 Val Accuracy: 0.8315
+  -> Fold 6 Val Accuracy: 0.8696
+  -> Fold 7 Val Accuracy: 0.8986
+Mean CV Accuracy for Config 60: 0.8394
+
+========================================
+Evaluating Config 61/64: {'learning_rate': 0.0001, 'kernel_size': 9, 'num_filters': 16}
+========================================
+  -> Fold 1 Val Accuracy: 0.7362
+  -> Fold 2 Val Accuracy: 0.6010
+  -> Fold 3 Val Accuracy: 0.6468
+  -> Fold 4 Val Accuracy: 0.6988
+  -> Fold 5 Val Accuracy: 0.7517
+  -> Fold 6 Val Accuracy: 0.6702
+  -> Fold 7 Val Accuracy: 0.7071
+Mean CV Accuracy for Config 61: 0.6874
+
+========================================
+Evaluating Config 62/64: {'learning_rate': 0.0001, 'kernel_size': 9, 'num_filters': 32}
+========================================
+  -> Fold 1 Val Accuracy: 0.8385
+  -> Fold 2 Val Accuracy: 0.7417
+  -> Fold 3 Val Accuracy: 0.6956
+  -> Fold 4 Val Accuracy: 0.7335
+  -> Fold 5 Val Accuracy: 0.6939
+  -> Fold 6 Val Accuracy: 0.7843
+  -> Fold 7 Val Accuracy: 0.8019
+Mean CV Accuracy for Config 62: 0.7556
+
+========================================
+Evaluating Config 63/64: {'learning_rate': 0.0001, 'kernel_size': 9, 'num_filters': 64}
+========================================
+  -> Fold 1 Val Accuracy: 0.8706
+  -> Fold 2 Val Accuracy: 0.7397
+  -> Fold 3 Val Accuracy: 0.7678
+  -> Fold 4 Val Accuracy: 0.7882
+  -> Fold 5 Val Accuracy: 0.8076
+  -> Fold 6 Val Accuracy: 0.8140
+  -> Fold 7 Val Accuracy: 0.8512
+Mean CV Accuracy for Config 63: 0.8056
+
+========================================
+Evaluating Config 64/64: {'learning_rate': 0.0001, 'kernel_size': 9, 'num_filters': 128}
+========================================
+  -> Fold 1 Val Accuracy: 0.8997
+  -> Fold 2 Val Accuracy: 0.7889
+  -> Fold 3 Val Accuracy: 0.8862
+  -> Fold 4 Val Accuracy: 0.8220
+  -> Fold 5 Val Accuracy: 0.8624
+  -> Fold 6 Val Accuracy: 0.8648
+  -> Fold 7 Val Accuracy: 0.9232
+Mean CV Accuracy for Config 64: 0.8639
+Hyperparameter tuning time: 48885.39 seconds
+Note: I left it to run overnight, and it actually pauses when my computer's screen goes black. It must have taken 12 hours less, so about 1 hour in reality.
+
+Saved all 64 configurations and results to: C:\Users\chris\Dropbox\03_MS_in_data_engineering\fall2026\machine_learning_csce_5215\ml_group_12_project\models\one_d_CNN\tuning_results_64.csv
+
+
+Optimization Complete!
+Best Hyperparameters: {'learning_rate': 0.01, 'kernel_size': 7, 'num_filters': 32}
+Best Mean CV Accuracy: 0.9172

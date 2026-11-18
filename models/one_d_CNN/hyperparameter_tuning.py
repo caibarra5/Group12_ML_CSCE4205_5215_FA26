@@ -7,8 +7,9 @@ from torch.utils.data import TensorDataset, DataLoader
 from itertools import product
 import pandas as pd
 import numpy as np
+import time
 
-# File location: /models/one_d_CNN/train_1D_CNN_model.py
+# File location: /models/one_d_CNN/hyperparameter_tuning.py
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -120,9 +121,9 @@ class Har1DCNN(nn.Module):
 # HYPERPARAMETER SEARCH GRID (3 Parameters)
 # ==========================================
 param_grid = {
-    "learning_rate": [0.001, 0.0005],
-    "kernel_size": [3, 5],
-    "num_filters": [32, 64]
+    "learning_rate": [0.01, 0.001, 0.0005, 0.0001],  # Added 0.01 and 0.0001
+    "kernel_size": [3, 5, 7, 9],                     # Added 7 and 9
+    "num_filters": [16, 32, 64, 128]                 # Added 16 and 128
 }
 
 print("Hyperparameter grid:")
@@ -142,6 +143,12 @@ best_config = None
 
 # There are several hyperparameters to configure. But I chose to focus on learning rate, kernel size and number of filters.
 # I have no idea how to explore more parameters without running into combinatorial explosion.
+
+print("\nStarting hyperparameter tuning...")
+start = time.time()
+
+# 1. Initialize a list to track all results
+results_log = []
 
 # ==========================================
 # OUTER LOOP: Hyperparameter Configurations
@@ -165,14 +172,12 @@ for config_idx, config in enumerate(hyperparameter_configs):
         X_train, y_train = X[train_mask], y[train_mask]
         X_val, y_val = X[val_mask], y[val_mask]
 
-        # Create PyTorch DataLoaders
         train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
         val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long))
 
         train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
         val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
-        # Instantiate model inside the CV loop for this specific configuration
         model = Har1DCNN(
             in_channels=9,
             num_classes=6,
@@ -183,7 +188,6 @@ for config_idx, config in enumerate(hyperparameter_configs):
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adam(model.parameters(), lr=config["learning_rate"])
 
-        # Training Loop (e.g., 5 epochs per fold for tuning demonstration)
         num_epochs = 5
         for epoch in range(num_epochs):
             model.train()
@@ -196,7 +200,6 @@ for config_idx, config in enumerate(hyperparameter_configs):
                 loss.backward()
                 optimizer.step()
 
-        # Validation Evaluation
         model.eval()
         correct, total = 0, 0
         with torch.no_grad():
@@ -217,6 +220,25 @@ for config_idx, config in enumerate(hyperparameter_configs):
     if mean_cv_accuracy > best_accuracy:
         best_accuracy = mean_cv_accuracy
         best_config = config
+
+    # 2. Log this configuration's results
+    results_log.append({
+        "config_id": config_idx + 1,
+        "learning_rate": config["learning_rate"],
+        "kernel_size": config["kernel_size"],
+        "num_filters": config["num_filters"],
+        **{f"fold_{i+1}_acc": acc for i, acc in enumerate(fold_accuracies)},
+        "mean_cv_accuracy": mean_cv_accuracy
+    })
+
+end = time.time()
+print(f"Hyperparameter tuning time: {end - start:.2f} seconds")
+
+# 3. Save all results to a CSV file in the same directory
+results_df = pd.DataFrame(results_log)
+csv_output_path = Path(__file__).resolve().parent / "tuning_results_64.csv"
+results_df.to_csv(csv_output_path, index=False)
+print(f"\nSaved all 64 configurations and results to: {csv_output_path}")
 
 print(f"\n\nOptimization Complete!")
 print(f"Best Hyperparameters: {best_config}")
