@@ -1,6 +1,10 @@
 import json
 from pathlib import Path
 import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import TensorDataset, DataLoader
+from itertools import product
 import pandas as pd
 import numpy as np
 
@@ -8,10 +12,9 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 
-# Could be useful, but I prefer to run the python file as a module.
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
 
-with open("data/splits/participants.json", "r") as f:
+with open(SPLIT_PATH, "r") as f:
     splits = json.load(f)
 
 train_ids = splits["train_participants"]
@@ -23,28 +26,13 @@ print(f"\nTest participants: {test_ids}")
 print(f"\nFolds: {folds}")
 
 # Now let's start checking out the data
-
-DATA = Path("data/raw/UCI HAR Dataset")
-
-# The derived features will not be used for the CNN.
-# The CNN will use the raw data because it will learn the features itself. 
+DATA = ROOT / "data" / "raw" / "UCI HAR Dataset"
 
 SIGNALS = DATA / "train" / "Inertial Signals"
 
 print("\nMaking sure the Inertial Signals folder path is there.", SIGNALS.is_dir())
 
-print("\nThe files in this Inertial Signals folder:")
-for path in sorted(SIGNALS.glob("*.txt")):
-    print(path.name)
-
-body_acc_x = np.loadtxt(SIGNALS / "body_acc_x_train.txt", dtype = np.float32)
-
-# print("\nShape:", body_acc_x.shape)
-# print("First window, first 10 readings:", body_acc_x[0, :10])
-
-
-# The order will determine which index corresponds to which channel
-print("\n LOADING TRAINING DATA.")
+# LOADING TRAINING DATA
 channel_names = [
     "body_acc_x",
     "body_acc_y",
@@ -58,72 +46,174 @@ channel_names = [
 ]
 
 channels = []
-
 print("\nLoading the channels in the order specified by channel_names.")
 for name in channel_names:
-    print(f"Loading channel: {name}")
     channel = np.loadtxt(
         SIGNALS / f"{name}_train.txt",
         dtype=np.float32,
     )
     channels.append(channel)
 
-# Insert a channel axis between windows and time steps. 
-print("\nInserting a channel axis between windows and time steps.")
+# Insert a channel axis between windows and time steps -> Shape: (window, channel, time step)
 X = np.stack(channels, axis=1)
+print(f"\nCombined shape: {X.shape}")
 
-# Now we know that the coordinates are (window, channel, time step)
-print("\nFirst index is the window, the second the channel, and the third the time step.")
-print("\nCombined shape:", X.shape)
+# LOADING TRAINING LABELS
+y = np.loadtxt(DATA / "train" / "y_train.txt", dtype=np.int64)
+y = y - 1  # Shift activity IDs to start from 0 instead of 1
 
-print("\nLOADING TRAINING LABELS.")
+# LOADING TRAINING SUBJECTS
+subjects = np.loadtxt(DATA / "train" / "subject_train.txt", dtype=np.int64)
 
-# Each window corresponds to one activity label.
-
-y = np.loadtxt(DATA/"train"/"y_train.txt", dtype=np.int64)
-
-# Shift activity IDs to start from 0 instead of 1
-y = y - 1
-
-print("\nLOADING TRAINING SUBJECTS.")
-subjects = np.loadtxt(DATA / "train" / "subject_train.txt", dtype = np.int64)
-
-# Checking that each window has a label and a participant ID
 assert X.shape[0] == y.shape[0] == subjects.shape[0], "The number of windows, labels, and subjects should be the same."
+assert set(subjects.tolist()) == set(train_ids), "The subjects loaded and the train ids from our setup don't match."
+
+print(f"\nX.shape: {X.shape}, y.shape: {y.shape}, subjects.shape: {subjects.shape}")
+print(f"Classes: {np.unique(y)}")
+print(f"Participants: {np.unique(subjects)}")
 
 
-print("\nX.shape: ",X.shape, "y.shape: ", y.shape, "subjects.shape: ", subjects.shape)
+# ==========================================
+# 1D CNN MODEL DEFINITION
+# ==========================================
+class Har1DCNN(nn.Module):
+    def __init__(self, in_channels=9, num_classes=6, kernel_size=3, num_filters=32, dropout=0.5):
+        super(Har1DCNN, self).__init__()
+        # Conv block 1
+        self.conv1 = nn.Conv1d(
+            in_channels=in_channels, 
+            out_channels=num_filters, 
+            kernel_size=kernel_size, 
+            padding=kernel_size // 2
+        )
+        self.relu = nn.ReLU()
+        self.pool = nn.MaxPool1d(kernel_size=2, stride=2)
+        
+        # Conv block 2
+        self.conv2 = nn.Conv1d(
+            in_channels=num_filters, 
+            out_channels=num_filters * 2, 
+            kernel_size=kernel_size, 
+            padding=kernel_size // 2
+        )
+        
+        # Global pooling and fully connected classifier
+        self.global_pool = nn.AdaptiveAvgPool1d(1)
+        self.fc = nn.Sequential(
+            nn.Linear(num_filters * 2, 64),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(64, num_classes)
+        )
 
-print("\nClasses: ", np.unique(y))
+    def forward(self, x):
+        # x shape expected: (batch_size, channels, timesteps)
+        x = self.pool(self.relu(self.conv1(x)))
+        x = self.pool(self.relu(self.conv2(x)))
+        x = self.global_pool(x)
+        x = x.view(x.size(0), -1)  # Flatten
+        out = self.fc(x)
+        return out
 
-print("\nParticipants: ", np.unique(subjects))
 
-# Now we need to separate the training data into training and validation sets using the participants ID's
+# ==========================================
+# HYPERPARAMETER SEARCH GRID (3 Parameters)
+# ==========================================
+param_grid = {
+    "learning_rate": [0.001, 0.0005],
+    "kernel_size": [3, 5],
+    "num_filters": [32, 64]
+}
 
-assert set(subjects.tolist()) == set(train_ids), "The subjects loaded and the train ids from our setup don't match. Check the participants.json file and the data loading code."
+keys, values = zip(*param_grid.items())
+hyperparameter_configs = [dict(zip(keys, v)) for v in product(*values)]
 
-# print("\nFirst 40 train_ids values: ", train_ids[:40])
-# print("\nFirst 40 subjects values: ", subjects[:40])
+print(f"\nTotal hyperparameter configurations to evaluate: {len(hyperparameter_configs)}")
 
-# Writing the CV loop first to start building the model hyperparameter tuning.
-for fold_index, validation_ids in enumerate(folds):
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
 
-    # These are this CV loop's training participants' ids.
-    training_ids = [participant for participant in train_ids if participant not in validation_ids]
+best_accuracy = 0.0
+best_config = None
 
-    # These are the boolean masks that separate the training and validation data for this CV loop. Each window is done by a participant.
-    train_mask = np.isin(subjects, training_ids)
-    val_mask = np.isin(subjects, validation_ids)
+# There are several hyperparameters to configure. But I chose to focus on learning rate, kernel size and number of filters.
+# I have no idea how to explore more parameters without running into combinatorial explosion.
 
-    X_train = X[train_mask]
-    y_train = y[train_mask]
+# ==========================================
+# OUTER LOOP: Hyperparameter Configurations
+# ==========================================
+for config_idx, config in enumerate(hyperparameter_configs):
+    print(f"\n========================================")
+    print(f"Evaluating Config {config_idx + 1}/{len(hyperparameter_configs)}: {config}")
+    print(f"========================================")
+    
+    fold_accuracies = []
 
-    X_val = X[val_mask]
-    y_val = y[val_mask]
+    # ==========================================
+    # INNER LOOP: Cross-Validation Folds
+    # ==========================================
+    for fold_index, validation_ids in enumerate(folds):
+        training_ids = [p for p in train_ids if p not in validation_ids]
 
-    # Print just to check 
-    print(f"\nFold {fold_index + 1}:")
-    print(f"Training participants: {training_ids}")
-    print(f"Validation participants: {validation_ids}")
-    print(f"X_train.shape: {X_train.shape}, y_train.shape: {y_train.shape}")
-    print(f"X_val.shape: {X_val.shape}, y_val.shape: {y_val.shape}")
+        train_mask = np.isin(subjects, training_ids)
+        val_mask = np.isin(subjects, validation_ids)
+
+        X_train, y_train = X[train_mask], y[train_mask]
+        X_val, y_val = X[val_mask], y[val_mask]
+
+        # Create PyTorch DataLoaders
+        train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
+        val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long))
+
+        train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
+        val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+
+        # Instantiate model inside the CV loop for this specific configuration
+        model = Har1DCNN(
+            in_channels=9,
+            num_classes=6,
+            kernel_size=config["kernel_size"],
+            num_filters=config["num_filters"]
+        ).to(device)
+
+        criterion = nn.CrossEntropyLoss()
+        optimizer = optim.Adam(model.parameters(), lr=config["learning_rate"])
+
+        # Training Loop (e.g., 5 epochs per fold for tuning demonstration)
+        num_epochs = 5
+        for epoch in range(num_epochs):
+            model.train()
+            for batch_X, batch_y in train_loader:
+                batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+                
+                optimizer.zero_grad()
+                outputs = model(batch_X)
+                loss = criterion(outputs, batch_y)
+                loss.backward()
+                optimizer.step()
+
+        # Validation Evaluation
+        model.eval()
+        correct, total = 0, 0
+        with torch.no_grad():
+            for batch_X, batch_y in val_loader:
+                batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+                outputs = model(batch_X)
+                _, predicted = torch.max(outputs.data, 1)
+                total += batch_y.size(0)
+                correct += (predicted == batch_y).sum().item()
+
+        val_accuracy = correct / total
+        fold_accuracies.append(val_accuracy)
+        print(f"  -> Fold {fold_index + 1} Val Accuracy: {val_accuracy:.4f}")
+
+    mean_cv_accuracy = np.mean(fold_accuracies)
+    print(f"Mean CV Accuracy for Config {config_idx + 1}: {mean_cv_accuracy:.4f}")
+
+    if mean_cv_accuracy > best_accuracy:
+        best_accuracy = mean_cv_accuracy
+        best_config = config
+
+print(f"\n\nOptimization Complete!")
+print(f"Best Hyperparameters: {best_config}")
+print(f"Best Mean CV Accuracy: {best_accuracy:.4f}")
