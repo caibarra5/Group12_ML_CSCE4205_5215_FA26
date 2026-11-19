@@ -65,3 +65,19 @@ print(set(np.unique(train_subjects)) == set(train_ids))
 
 # check that test participants match
 print(set(np.unique(test_subjects)) == set(test_ids))
+
+
+# Load X and y
+path_to_train_folder = DATA / "train"
+X_train = np.loadtxt(path_to_train_folder / "X_train.txt", dtype=np.float64)
+y_train = np.loadtxt(path_to_train_folder / "y_train.txt", dtype=np.int64)
+
+
+path_to_test_folder = DATA / "test"
+X_test = np.loadtxt(path_to_test_folder / "X_test.txt", dtype=np.float64)
+y_test = np.loadtxt(path_to_test_folder / "y_test.txt", dtype=np.int64)
+
+print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)
