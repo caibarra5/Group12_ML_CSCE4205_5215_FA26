@@ -85,3 +85,17 @@ print(y_train.shape)
 print(X_test.shape)
 print(y_test.shape)
 
+
+# build one-hot table filled with zeros
+initial_table = np.zeros((len(y_train), 6))
+
+# transform y_train into one-hot vectors in our new table
+for i, label in enumerate(y_train):
+    initial_table[i][label - 1] = 1
+
+# check if every row in the new table adds to one
+print(initial_table.sum(axis=1).all())
+
+# print our new table and y_train to confirm it's encoding as it should
+print(initial_table[:3], y_train[:3])
+
