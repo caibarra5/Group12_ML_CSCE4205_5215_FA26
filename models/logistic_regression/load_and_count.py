@@ -3,6 +3,7 @@
 Nothing here trains a model yet.
 """
 import json
+import numpy as np
 from pathlib import Path
 
 # File location: /models/logistic_regression/load_and_count.py
@@ -24,3 +25,43 @@ test_length = len(test_ids)
 
 print(f"\nlength of Train participants: {train_length}")
 print(f"\nlength of Test participants: {test_length}")
+
+# TRAIN DATA LOADING
+# path to subject_train.txt
+DATA = ROOT / "data" / "raw" / "UCI HAR Dataset"
+path_to_train_data = DATA / "train" / "subject_train.txt"
+
+print(path_to_train_data.exists())
+
+
+# load training data
+train_subjects = np.loadtxt(path_to_train_data, dtype=np.int64)
+
+
+print(train_subjects[:5])
+print(len(train_subjects))
+
+
+
+# TEST DATA LOADING
+# path to subject_test.txt
+path_to_test_data = DATA / "test" / "subject_test.txt"
+
+print(path_to_test_data.exists())
+
+
+# load test data
+test_subjects = np.loadtxt(path_to_test_data, dtype=np.int64)
+
+
+print(test_subjects[:5])
+print(len(test_subjects))
+
+
+# Check that participants match
+# check that train participants match
+print(set(np.unique(train_subjects)) == set(train_ids))
+
+
+# check that test participants match
+print(set(np.unique(test_subjects)) == set(test_ids))
