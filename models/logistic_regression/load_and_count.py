@@ -4,6 +4,7 @@ Nothing here trains a model yet.
 """
 import json
 import numpy as np
+import math
 from pathlib import Path
 
 # File location: /models/logistic_regression/load_and_count.py
@@ -98,4 +99,24 @@ print(initial_table.sum(axis=1).all())
 
 # print our new table and y_train to confirm it's encoding as it should
 print(initial_table[:3], y_train[:3])
+
+
+# our first prediction
+W_table  = np.zeros((X_train.shape[1], 6))
+scores = X_train @ W_table # use @ for matrix multiplication
+
+# print the score matrix
+print(scores.shape)
+print(scores[:3])
+
+# create sigmoid function to turn raw scores into probabilities
+def sigmoid(x):
+  return 1 / (1 + np.exp(-x))
+
+# run sigmoid on the scores matrix
+probs = sigmoid(scores)
+
+# print the probabilty matrix
+print(probs.shape)
+print(probs[:3])
 
