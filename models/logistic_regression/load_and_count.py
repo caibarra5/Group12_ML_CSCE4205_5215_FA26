@@ -123,3 +123,28 @@ print(probs[:3])
 # loss over every cell of the table (average)
 loss = -np.mean( initial_table * np.log(probs) + (1 - initial_table) * np.log(1 - probs) )
 print(loss)
+
+# nudging the weights
+error = probs - initial_table
+
+print(error.shape)
+print(error[:3])
+
+# compute the gradient based on the loss
+gradient = (X_train.T @ error) / len(y_train)
+print(gradient.shape)
+
+
+# updating the weights
+learning_rate = 0.01
+W_table = W_table - learning_rate * gradient
+
+# new scores
+scores = X_train @ W_table # use @ for matrix multiplication
+
+# new probabilities
+probs = sigmoid(scores)
+
+# new loss
+loss = -np.mean( initial_table * np.log(probs) + (1 - initial_table) * np.log(1 - probs) )
+print(loss)
