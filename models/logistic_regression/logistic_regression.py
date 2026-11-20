@@ -124,8 +124,19 @@ for step in range(N_STEPS):
         print(f"step {step}: loss {loss:.4f}")
 
 # ---------------------------------------------------------------
-# 5. NEXT: predict the test rows
+# 5. Predict the test rows
 # ---------------------------------------------------------------
-# - scores and probs for X_test (use the trained W_table, do NOT retrain)
-# - pick the activity with the highest probability, then add 1 to get labels 1-6
-# - compare with y_test, then call evaluate() from src/metrics.py
+# a) Same steps as training, but on the TEST features and the trained weights.
+scores_test = X_test @ W_table
+probs_test = sigmoid(scores_test)
+
+# b) For each row, pick the activity with the highest probability.
+#    Columns run 0-5 and labels run 1-6, so add 1.
+y_pred = np.argmax(probs_test, axis=1) + 1
+
+print(y_pred.shape)
+print(y_pred[:10], y_test[:10])
+
+# c) Accuracy: the share of rows where our pick matches the true label.
+accuracy = np.mean(y_pred == y_test)
+print(f"Test accuracy: {accuracy:.4f}")
