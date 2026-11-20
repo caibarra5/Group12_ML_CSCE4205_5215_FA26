@@ -148,3 +148,27 @@ probs = sigmoid(scores)
 # new loss
 loss = -np.mean( initial_table * np.log(probs) + (1 - initial_table) * np.log(1 - probs) )
 print(loss)
+
+
+
+
+# the training loop
+learning_rate = 0.01
+n_steps = 200
+
+# (things that happen once go here)
+W_table = np.zeros((X_train.shape[1], 6))
+
+for step in range(n_steps):
+    # (things that repeat go here)
+    scores = X_train @ W_table
+    probs = sigmoid(scores)
+    loss = -np.mean( initial_table * np.log(probs) + (1 - initial_table) * np.log(1 - probs) )
+    
+    error = probs - initial_table
+    gradient = (X_train.T @ error) / len(y_train)
+    W_table = W_table - learning_rate * gradient
+    
+    # print the loss every 20 steps so you can watch it fall
+    if step % 20 == 0:
+        print(loss)
