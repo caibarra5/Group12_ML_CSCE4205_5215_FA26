@@ -10,8 +10,9 @@ What this file does, in order:
 4. Train the weights with gradient descent (timed).
 5. Predict the test rows (timed).
 6. Score the predictions with the shared evaluate() from src/metrics.py.
+7. Save the scores to experiments/ so card 3 can compare methods.
 
-NEXT: save the results to experiments/ so card 3 can compare methods.
+NEXT: tune the learning rate and steps with the cross-validation folds (not the test set).
 """
 import json
 import sys
@@ -157,3 +158,14 @@ results = evaluate(
 )
 print("macro-F1:", results["macro_f1"])
 print("accuracy:", results["accuracy"])
+
+# ---------------------------------------------------------------
+# 7. Save the results
+# ---------------------------------------------------------------
+# Write everything evaluate() returned into a JSON file, the same way the other
+# methods do, so card 3 can compare the files directly.
+
+out_path = ROOT / "experiments" / "logistic_final_test_metrics.json"
+with open(out_path, "w") as f:
+    json.dump(results, f, indent=4)
+print("Saved results to", out_path)
