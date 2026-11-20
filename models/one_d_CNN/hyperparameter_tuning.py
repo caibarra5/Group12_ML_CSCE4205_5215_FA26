@@ -234,9 +234,11 @@ for config_idx, config in enumerate(hyperparameter_configs):
 end = time.time()
 print(f"Hyperparameter tuning time: {end - start:.2f} seconds")
 
-# 3. Save all results to a CSV file in the same directory
+# 3. Save all results to a CSV file in experiments/one_d_cnn/
 results_df = pd.DataFrame(results_log)
-csv_output_path = Path(__file__).resolve().parent / "tuning_results_64.csv"
+results_dir = ROOT / "experiments" / "one_d_cnn"
+results_dir.mkdir(parents=True, exist_ok=True)
+csv_output_path = results_dir / "tuning_results_64.csv"
 results_df.to_csv(csv_output_path, index=False)
 print(f"\nSaved all 64 configurations and results to: {csv_output_path}")
 
