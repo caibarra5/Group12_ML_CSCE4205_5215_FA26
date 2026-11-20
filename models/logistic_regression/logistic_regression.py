@@ -165,7 +165,9 @@ print("accuracy:", results["accuracy"])
 # Write everything evaluate() returned into a JSON file, the same way the other
 # methods do, so card 3 can compare the files directly.
 
-out_path = ROOT / "experiments" / "logistic_final_test_metrics.json"
+results_dir = ROOT / "experiments" / "logistic"
+results_dir.mkdir(parents=True, exist_ok=True)
+out_path = results_dir / "final_test_metrics.json"
 with open(out_path, "w") as f:
     json.dump(results, f, indent=4)
 print("Saved results to", out_path)
