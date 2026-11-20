@@ -120,3 +120,6 @@ probs = sigmoid(scores)
 print(probs.shape)
 print(probs[:3])
 
+# loss over every cell of the table (average)
+loss = -np.mean( initial_table * np.log(probs) + (1 - initial_table) * np.log(1 - probs) )
+print(loss)
