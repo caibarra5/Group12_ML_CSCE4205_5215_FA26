@@ -7,14 +7,23 @@ What this file does, in order:
 1. Load the shared participant split and the train/test data.
 2. Check that the data files match the split file.
 3. Turn the labels into a 0/1 table (one column per activity).
-4. Train the weights with gradient descent and watch the loss fall.
+4. Train the weights with gradient descent (timed).
+5. Predict the test rows (timed).
+6. Score the predictions with the shared evaluate() from src/metrics.py.
 
-NEXT: predict the test rows and call evaluate() from src/metrics.py.
+NEXT: save the results to experiments/ so card 3 can compare methods.
 """
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
+
+# This file lives in /models/logistic_regression/, so the repo root is two folders up.
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))  # lets Python find src/metrics.py
+
+from src.metrics import evaluate, timed  # noqa: E402  (must come after the sys.path line)
 
 # ---------------------------------------------------------------
 # Settings and paths
@@ -23,8 +32,6 @@ LEARNING_RATE = 0.01  # how big each step downhill is (0.1 overshot, 0.01 worked
 N_STEPS = 200         # how many times the training loop repeats
 N_CLASSES = 6         # six activities
 
-# This file lives in /models/logistic_regression/, so the repo root is two folders up.
-ROOT = Path(__file__).resolve().parents[2]
 SPLIT_FILE = ROOT / "data" / "splits" / "participants.json"
 DATA = ROOT / "data" / "raw" / "UCI HAR Dataset"
 
@@ -66,6 +73,34 @@ def logistic_loss(y_table, probs):
     return -np.mean(y_table * np.log(probs) + (1 - y_table) * np.log(1 - probs))
 
 
+def train(X, Y_table):
+    """Train the weights with gradient descent. Returns the trained weight table.
+
+    X is the features, Y_table is the 0/1 table of true answers.
+    The weight table has one row per feature and one column per activity.
+    """
+    # Start at zero: the model knows nothing yet.
+    W = np.zeros((X.shape[1], N_CLASSES))
+
+    for step in range(N_STEPS):
+        probs = sigmoid(X @ W)               # predict: a probability per activity
+        error = probs - Y_table              # how far off, per cell
+        gradient = (X.T @ error) / len(X)    # which way is uphill, per weight
+        W = W - LEARNING_RATE * gradient     # step the opposite way (downhill)
+
+        if step % 20 == 0:                   # watch the loss fall
+            print(f"step {step}: loss {logistic_loss(Y_table, probs):.4f}")
+
+    return W
+
+
+def predict(X, W):
+    """Pick the activity (1-6) with the highest probability for each row."""
+    probs = sigmoid(X @ W)
+    # Columns run 0-5 and labels run 1-6, so add 1.
+    return np.argmax(probs, axis=1) + 1
+
+
 # ---------------------------------------------------------------
 # 1. Load the shared participant split
 # ---------------------------------------------------------------
@@ -100,43 +135,25 @@ y_train_onehot = one_hot(y_train, N_CLASSES)
 print("Every row of the table adds to 1:", (y_train_onehot.sum(axis=1) == 1).all())
 
 # ---------------------------------------------------------------
-# 4. Train the weights with gradient descent
+# 4. Train (timed)
 # ---------------------------------------------------------------
-# One column of 561 weights per activity. Start at zero (the model knows nothing yet).
-W_table = np.zeros((X_train.shape[1], N_CLASSES))
-
-for step in range(N_STEPS):
-    # a) Predict: a score per activity, then a probability per activity.
-    scores = X_train @ W_table
-    probs = sigmoid(scores)
-
-    # b) How wrong are we? (we only compute this to watch it fall)
-    loss = logistic_loss(y_train_onehot, probs)
-
-    # c) Which way is uphill? The error per cell, then the gradient per weight.
-    error = probs - y_train_onehot
-    gradient = (X_train.T @ error) / len(y_train)
-
-    # d) Take a small step the opposite way (downhill).
-    W_table = W_table - LEARNING_RATE * gradient
-
-    if step % 20 == 0:
-        print(f"step {step}: loss {loss:.4f}")
+W_table, train_seconds = timed(train, X_train, y_train_onehot)
 
 # ---------------------------------------------------------------
-# 5. Predict the test rows
+# 5. Predict the test rows (timed)
 # ---------------------------------------------------------------
-# a) Same steps as training, but on the TEST features and the trained weights.
-scores_test = X_test @ W_table
-probs_test = sigmoid(scores_test)
+y_pred, predict_seconds = timed(predict, X_test, W_table)
 
-# b) For each row, pick the activity with the highest probability.
-#    Columns run 0-5 and labels run 1-6, so add 1.
-y_pred = np.argmax(probs_test, axis=1) + 1
-
-print(y_pred.shape)
-print(y_pred[:10], y_test[:10])
-
-# c) Accuracy: the share of rows where our pick matches the true label.
-accuracy = np.mean(y_pred == y_test)
-print(f"Test accuracy: {accuracy:.4f}")
+# ---------------------------------------------------------------
+# 6. Score the predictions with the shared evaluate()
+# ---------------------------------------------------------------
+results = evaluate(
+    y_test,            # the real test labels
+    y_pred,            # our predictions
+    subjects_test,     # participant ID of every test row (for per-person scores)
+    train_seconds,
+    predict_seconds,
+    labels=[1, 2, 3, 4, 5, 6],  # all six activity labels
+)
+print("macro-F1:", results["macro_f1"])
+print("accuracy:", results["accuracy"])
