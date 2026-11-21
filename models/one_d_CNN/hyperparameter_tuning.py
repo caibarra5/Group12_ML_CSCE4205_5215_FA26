@@ -135,6 +135,13 @@ param_grid = {
     "num_filters": [16, 32, 64, 128]                 # Added 16 and 128
 }
 
+# Just for testing since it takes a really long time for the 4 x 4 x 4 configurations.
+# param_grid = {
+#     "learning_rate": [0.01],  
+#     "kernel_size": [3],                    
+#     "num_filters": [16]                 
+# }
+
 print("Hyperparameter grid:")
 for param, values in param_grid.items():
     print(f"  {param}: {values}")
@@ -181,6 +188,14 @@ for config_idx, config in enumerate(hyperparameter_configs):
 
         X_train, y_train = X[train_mask], y[train_mask]
         X_val, y_val = X[val_mask], y[val_mask]
+
+        # Standardization here
+        channel_mean = X_train.mean(axis=(0, 2), keepdims=True)
+        channel_std = X_train.std(axis=(0, 2), keepdims=True)
+        channel_std = np.maximum(channel_std, 1e-8)
+
+        X_train = (X_train - channel_mean) / channel_std
+        X_val = (X_val - channel_mean) / channel_std
 
         train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
         val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long))

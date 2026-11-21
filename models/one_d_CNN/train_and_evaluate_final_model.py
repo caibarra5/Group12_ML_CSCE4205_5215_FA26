@@ -58,6 +58,13 @@ print("\nLoading Training and Test datasets...")
 X_train_full, y_train_full, subjects_train_full = load_har_data("train")
 X_test, y_test, subjects_test = load_har_data("test")
 
+channel_mean = X_train_full.mean(axis=(0, 2), keepdims=True)
+channel_std = X_train_full.std(axis=(0, 2), keepdims=True)
+channel_std = np.maximum(channel_std, 1e-8)
+
+X_train_full = (X_train_full - channel_mean) / channel_std
+X_test = (X_test - channel_mean) / channel_std
+
 # Verifying participants match split expectations
 assert set(np.unique(subjects_train_full)) == set(train_ids)
 assert set(np.unique(subjects_test)) == set(test_ids)
