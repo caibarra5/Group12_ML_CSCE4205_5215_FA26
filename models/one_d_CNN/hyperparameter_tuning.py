@@ -11,6 +11,15 @@ import time
 
 # File location: /models/one_d_CNN/hyperparameter_tuning.py
 
+import random
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
 ROOT = Path(__file__).resolve().parents[2]
 
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
@@ -164,6 +173,7 @@ for config_idx, config in enumerate(hyperparameter_configs):
     # INNER LOOP: Cross-Validation Folds
     # ==========================================
     for fold_index, validation_ids in enumerate(folds):
+        set_seed(splits["seed"] + fold_index)  # Here's the fix for the seed on this script. NOw for the train and evaluate script.
         training_ids = [p for p in train_ids if p not in validation_ids]
 
         train_mask = np.isin(subjects, training_ids)
@@ -234,9 +244,11 @@ for config_idx, config in enumerate(hyperparameter_configs):
 end = time.time()
 print(f"Hyperparameter tuning time: {end - start:.2f} seconds")
 
-# 3. Save all results to a CSV file in the same directory
+# 3. Save all results to a CSV file in experiments/one_d_cnn/
 results_df = pd.DataFrame(results_log)
-csv_output_path = Path(__file__).resolve().parent / "tuning_results_64.csv"
+results_dir = ROOT / "experiments" / "one_d_cnn"
+results_dir.mkdir(parents=True, exist_ok=True)
+csv_output_path = results_dir / "tuning_results_64.csv"
 results_df.to_csv(csv_output_path, index=False)
 print(f"\nSaved all 64 configurations and results to: {csv_output_path}")
 

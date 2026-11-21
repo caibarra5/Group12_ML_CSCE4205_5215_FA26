@@ -21,7 +21,8 @@ train_ids = splits["train_participants"]
 test_ids = splits["test_participants"]
 
 # Load the 64-config results CSV generated from tuning script
-csv_path = Path(__file__).resolve().parent / "tuning_results_64.csv"
+RESULTS_DIR = ROOT / "experiments" / "one_d_cnn"
+csv_path = RESULTS_DIR / "tuning_results_64.csv"
 results_df = pd.read_csv(csv_path)
 
 # configuration with the highest mean CV accuracy
@@ -86,6 +87,17 @@ class Har1DCNN(nn.Module):
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
+
+import random
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+set_seed(splits["seed"])
 
 # Prepare DataLoaders
 train_dataset = TensorDataset(torch.tensor(X_train_full, dtype=torch.float32), torch.tensor(y_train_full, dtype=torch.long))
@@ -159,7 +171,8 @@ print(f"Training Time: {final_metrics['train_seconds']:.2f}s")
 print(f"Prediction Time: {final_metrics['predict_seconds']:.2f}s")
 
 # Save final metrics summary to JSON
-metrics_output_path = Path(__file__).resolve().parent / "final_test_metrics.json"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+metrics_output_path = RESULTS_DIR / "final_test_metrics.json"
 with open(metrics_output_path, "w") as f:
     json.dump(final_metrics, f, indent=4)
 print(f"Saved final metrics report to: {metrics_output_path}")
