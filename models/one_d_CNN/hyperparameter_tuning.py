@@ -11,6 +11,15 @@ import time
 
 # File location: /models/one_d_CNN/hyperparameter_tuning.py
 
+import random
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
 ROOT = Path(__file__).resolve().parents[2]
 
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
@@ -164,6 +173,7 @@ for config_idx, config in enumerate(hyperparameter_configs):
     # INNER LOOP: Cross-Validation Folds
     # ==========================================
     for fold_index, validation_ids in enumerate(folds):
+        set_seed(splits["seed"] + fold_index)  # Here's the fix for the seed on this script. NOw for the train and evaluate script.
         training_ids = [p for p in train_ids if p not in validation_ids]
 
         train_mask = np.isin(subjects, training_ids)

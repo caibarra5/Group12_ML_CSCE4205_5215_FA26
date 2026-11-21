@@ -88,6 +88,17 @@ class Har1DCNN(nn.Module):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
+import random
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+set_seed(splits["seed"])
+
 # Prepare DataLoaders
 train_dataset = TensorDataset(torch.tensor(X_train_full, dtype=torch.float32), torch.tensor(y_train_full, dtype=torch.long))
 test_dataset = TensorDataset(torch.tensor(X_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.long))
