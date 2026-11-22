@@ -9,6 +9,9 @@ import pandas as pd
 import numpy as np
 import time
 
+import atexit
+import sys
+
 # File location: /models/one_d_CNN/hyperparameter_tuning.py
 
 import random
@@ -21,6 +24,32 @@ def set_seed(seed):
         torch.cuda.manual_seed_all(seed)
 
 ROOT = Path(__file__).resolve().parents[2]
+
+class Tee:
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, text):
+        for stream in self.streams:
+            stream.write(text)
+        self.flush()
+
+    def flush(self):
+        for stream in self.streams:
+            stream.flush()
+
+
+LOG_DIR = ROOT / "experiments" / "one_d_cnn"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+log_file = open(
+    LOG_DIR / "output_of_hyperparameter_tuning.txt",
+    "w",
+    encoding="utf-8",
+    buffering=1,
+)
+sys.stdout = Tee(sys.stdout, log_file)
+atexit.register(log_file.close)
 
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
 
@@ -135,13 +164,6 @@ param_grid = {
     "num_filters": [16, 32, 64, 128]                 # Added 16 and 128
 }
 
-# Just for testing since it takes a really long time for the 4 x 4 x 4 configurations.
-# param_grid = {
-#     "learning_rate": [0.01],  
-#     "kernel_size": [3],                    
-#     "num_filters": [16]                 
-# }
-
 print("Hyperparameter grid:")
 for param, values in param_grid.items():
     print(f"  {param}: {values}")
@@ -180,7 +202,7 @@ for config_idx, config in enumerate(hyperparameter_configs):
     # INNER LOOP: Cross-Validation Folds
     # ==========================================
     for fold_index, validation_ids in enumerate(folds):
-        set_seed(splits["seed"] + fold_index)  # Here's the fix for the seed on this script. NOw for the train and evaluate script.
+        set_seed(splits["seed"] + fold_index)  
         training_ids = [p for p in train_ids if p not in validation_ids]
 
         train_mask = np.isin(subjects, training_ids)
