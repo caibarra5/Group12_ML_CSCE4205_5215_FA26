@@ -30,8 +30,8 @@ from src.metrics import evaluate, timed  # noqa: E402  (must come after the sys.
 # Settings and paths
 # ---------------------------------------------------------------
 # Settings tried during tuning (the cross-validation folds pick the winner)
-LEARNING_RATES = [0.01, 0.03, 0.1]  # how big each step downhill is
-STEP_COUNTS = [200, 500, 1000]      # how many times the training loop repeats
+LEARNING_RATES = [0.03, 0.1]        # how big each step downhill is
+STEP_COUNTS = [1000, 2000, 3000]    # how many times the training loop repeats
 N_CLASSES = 6                       # six activities
 
 SPLIT_FILE = ROOT / "data" / "splits" / "participants.json"
@@ -72,6 +72,8 @@ def logistic_loss(y_table, probs):
     Cells where the truth is 1 use -log(prob).
     Cells where the truth is 0 use -log(1 - prob).
     """
+    # Keep the probabilities just inside 0 and 1, so log() never sees exactly 0 (that gave nan).
+    probs = np.clip(probs, 1e-12, 1 - 1e-12)
     return -np.mean(y_table * np.log(probs) + (1 - y_table) * np.log(1 - probs))
 
 
