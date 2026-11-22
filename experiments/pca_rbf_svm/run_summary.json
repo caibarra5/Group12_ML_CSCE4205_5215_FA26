@@ -80,22 +80,24 @@
   "candidate_pca_components": [
     40,
     80,
-    160
+    160,
+    240
   ],
   "candidate_C": [
     0.1,
     1.0,
-    10.0
+    10.0,
+    100.0
   ],
   "svm_gamma": "scale",
-  "selected_pca_components": 160,
-  "selected_C": 10.0,
-  "mean_validation_macro_f1": 0.9194934949890892,
-  "validation_sd_macro_f1": 0.02969887402493655,
-  "out_of_fold_validation_macro_f1": 0.9195411880879595,
-  "out_of_fold_validation_accuracy": 0.9213819368879217,
-  "final_fit_seconds": 0.5270548000044073,
-  "final_training_explained_variance": 0.9849238810994171,
+  "selected_pca_components": 240,
+  "selected_C": 1.0,
+  "mean_validation_macro_f1": 0.9229339157037802,
+  "validation_sd_macro_f1": 0.02593644979844929,
+  "out_of_fold_validation_macro_f1": 0.9228075776108194,
+  "out_of_fold_validation_accuracy": 0.9247823721436343,
+  "final_fit_seconds": 1.1878356999950483,
+  "final_training_explained_variance": 0.9969717389197503,
   "official_test_evaluated": false,
   "environment": {
     "python": "3.13.5",

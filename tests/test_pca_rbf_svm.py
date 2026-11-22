@@ -1,4 +1,4 @@
-
+"""Synthetic-only tests; do not read/tune on the UCI HAR dataset."""
 from __future__ import annotations
 import json
 import subprocess
@@ -13,6 +13,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / 'src'))
 from pca_svm_custom_pca import CustomPCA
 from pca_svm_har_data import read_shared_splits, verify_participants
+from pca_rbf_svm import fit_fold_preprocessing, pipeline_for
 
 
 class TestPCARBFSupportVectorMachine(unittest.TestCase):
@@ -24,6 +25,26 @@ class TestPCARBFSupportVectorMachine(unittest.TestCase):
                                    ref.components_.T @ ref.components_, atol=1e-8)
         np.testing.assert_allclose(mine.explained_variance_ratio_,
                                    ref.explained_variance_ratio_, atol=1e-8)
+
+    def test_training_only_scaling_and_pca(self):
+        """Held-out participants must not influence means in a fold."""
+        rng = np.random.default_rng(42)
+        X_train = rng.normal(loc=3.0, scale=2.0, size=(30, 7))
+        X_held_out = rng.normal(loc=2500.0, scale=20.0, size=(12, 7))
+        X = np.vstack([X_train, X_held_out])
+        mask = np.array([True] * 30 + [False] * 12)
+        scaler, pca, projected = fit_fold_preprocessing(X, mask, 4)
+        np.testing.assert_allclose(scaler.mean_, X_train.mean(axis=0), atol=1e-12)
+        np.testing.assert_allclose(pca.mean_,
+                                   scaler.transform(X_train).mean(axis=0), atol=1e-12)
+        self.assertEqual(projected.shape, (30, 4))
+        # Transform held-out examples; fitted statistics must remain untouched.
+        train_means_before = scaler.mean_.copy()
+        pca_means_before = pca.mean_.copy()
+        pca.transform(scaler.transform(X_held_out))
+        np.testing.assert_array_equal(scaler.mean_, train_means_before)
+        np.testing.assert_array_equal(pca.mean_, pca_means_before)
+        self.assertEqual(pipeline_for(4, 1.0).named_steps['svm'].random_state, 42)
 
     def test_bad_pca_input(self):
         with self.assertRaises(ValueError):
@@ -86,7 +107,7 @@ class TestPCARBFSupportVectorMachine(unittest.TestCase):
             self.assertEqual(second.returncode, 0, second.stdout + '\n' + second.stderr)
             d = json.loads((out / 'run_summary.json').read_text())
             self.assertTrue(d['official_test_evaluated'])
-            self.assertEqual(len(json.loads((out / 'test_metrics.json').read_text())['per_participant']), 9)
+            self.assertEqual(len(json.loads((out / 'final_test_metrics.json').read_text())['per_participant']), 9)
             self.assertTrue((out / 'test_confusion.csv').exists())
 
 

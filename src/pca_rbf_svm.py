@@ -1,4 +1,19 @@
+"""Group 12, method 2c: student-written PCA + RBF-SVM on UCI HAR.
 
+Run from the repository root after placing the downloaded dataset at
+``data/raw/UCI HAR Dataset/``:
+
+    python src/pca_rbf_svm.py
+
+The default run uses ONLY official training participants for grouped CV,
+selects PCA dimensionality and SVM C, refits on the full training split, and
+writes validation results to experiments/pca_rbf_svm/. It deliberately
+DOES NOT evaluate the held-out official test set. After the group locks its
+choices, use --final-test exactly once for the final report comparison.
+
+This script IMPORTS THE TEAM'S EXISTING src/metrics.py and calls evaluate().
+It does not create or rewrite participant splits or the shared metrics module.
+"""
 from __future__ import annotations
 
 import argparse
@@ -48,11 +63,11 @@ def parse_positive_unique(value: str, cast):
     return vals
 
 
-def pipeline_for(k: int, c: float):
+def pipeline_for(k: int, c: float, seed: int = 42):
     return Pipeline([
         ('scale', StandardScaler()),
         ('pca', CustomPCA(n_components=k)),
-        ('svm', SVC(kernel='rbf', gamma='scale', C=c, cache_size=512)),
+        ('svm', SVC(kernel='rbf', gamma='scale', C=c, cache_size=512, random_state=seed)),
     ])
 
 
@@ -101,8 +116,24 @@ def extra_macro_metrics(y_true, y_pred):
     }
 
 
+def fit_fold_preprocessing(X, fit_mask, n_components):
+    """Fit both learned transforms ONLY on the fold's training rows.
+
+    Validation/test examples are never passed to .fit(). This helper is kept
+    separate so its no-leakage invariant can be tested directly.
+    """
+    X_fit = np.asarray(X)[fit_mask]
+    scaler = StandardScaler().fit(X_fit)
+    Z_fit = scaler.transform(X_fit)
+    pca = CustomPCA(n_components=n_components).fit(Z_fit)
+    projected_fit = pca.transform(Z_fit)
+    return scaler, pca, projected_fit
+
+
 def run(args):
     split = read_shared_splits(args.splits)
+    # Agreed project-wide reproducibility seed comes from the shared split.
+    seed = int(split['seed'])
     train = load_har(args.dataset, 'train')
     verify_participants(train.subjects, split['train_participants'], 'train')
     # Reading participant IDs is safe for a split integrity audit; read no test X or y.
@@ -137,15 +168,11 @@ def run(args):
         # Compute the SAME training-only PCA once per fold; the smaller candidates
         # take the leading eigenvectors of the fitted max-k basis.
         start = time.perf_counter()
-        scaler = StandardScaler().fit(train.X[fit])
-        z_fit = scaler.transform(train.X[fit])
-        z_val = scaler.transform(train.X[val])
-        pca = CustomPCA(n_components=max(ks)).fit(z_fit)
-        projected_fit = pca.transform(z_fit)
+        scaler, pca, projected_fit = fit_fold_preprocessing(train.X, fit, max(ks))
         prep_seconds = time.perf_counter() - start
 
         for k, c in configurations:
-            svm = SVC(kernel='rbf', gamma='scale', C=c, cache_size=512)
+            svm = SVC(kernel='rbf', gamma='scale', C=c, cache_size=512, random_state=seed)
             _, svm_fit_seconds = timed(svm.fit, projected_fit[:, :k], train.y[fit])
             # Time the *whole* inference path, including scaler + PCA + SVM.
             predicted, svm_pred_seconds = timed(
@@ -206,8 +233,12 @@ def run(args):
     oof = evaluate(train.y, chosen_pred, train.subjects,
                    train_seconds=fold_times[(best_k, best_c)][0],
                    predict_seconds=fold_times[(best_k, best_c)][1], labels=LABELS)
-    oof.update(extra_macro_metrics(train.y, chosen_pred))
+    # Keep the shared evaluator schema identical across all three methods.
     write_json(out / 'validation_metrics.json', oof)
+    # Precision/recall from the proposal are saved separately until the team
+    # adds them to src/metrics.py for every model in one shared change.
+    write_json(out / 'validation_extra_metrics.json',
+               extra_macro_metrics(train.y, chosen_pred))
     plot_confusion(oof['confusion_matrix'], out / 'validation_confusion',
                    'PCA + RBF-SVM: out-of-fold validation')
     save_participant_rows(oof, train.subjects, out / 'validation_per_participant.csv')
@@ -217,7 +248,7 @@ def run(args):
     ], ['participant', 'actual', 'predicted'])
 
     # Fit final model only on the 21 official training participants.
-    selected = pipeline_for(best_k, best_c)
+    selected = pipeline_for(best_k, best_c, seed=seed)
     _, final_fit_seconds = timed(selected.fit, train.X, train.y)
     pca_fitted = selected.named_steps['pca']
     fig, ax = plt.subplots(figsize=(8, 4), layout='constrained')
@@ -267,10 +298,12 @@ def run(args):
         test_metrics = evaluate(test.y, test_pred, test.subjects,
                                 train_seconds=final_fit_seconds,
                                 predict_seconds=float(test_predict_seconds), labels=LABELS)
-        test_metrics.update(extra_macro_metrics(test.y, test_pred))
-        test_metrics['n_test_windows'] = int(len(test.y))
-        test_metrics['prediction_ms_per_window'] = 1000 * test_predict_seconds / len(test.X)
-        write_json(out / 'test_metrics.json', test_metrics)
+        write_json(out / 'final_test_metrics.json', test_metrics)
+        write_json(out / 'final_test_extra_metrics.json', {
+            **extra_macro_metrics(test.y, test_pred),
+            'n_test_windows': int(len(test.y)),
+            'prediction_ms_per_window': 1000 * test_predict_seconds / len(test.X),
+        })
         plot_confusion(test_metrics['confusion_matrix'], out / 'test_confusion',
                        'PCA + RBF-SVM: official test participants')
         save_participant_rows(test_metrics, test.subjects, out / 'test_per_participant.csv')
@@ -292,8 +325,8 @@ def main():
     parser.add_argument('--dataset', type=Path, default=Path('data/raw/UCI HAR Dataset'))
     parser.add_argument('--splits', type=Path, default=Path('data/splits/participants.json'))
     parser.add_argument('--out', type=Path, default=Path('experiments/pca_rbf_svm'))
-    parser.add_argument('--components', default='40,80,160', help='PCA counts to validate')
-    parser.add_argument('--c-values', default='0.1,1,10', help='RBF-SVM C values to validate')
+    parser.add_argument('--components', default='40,80,160,240', help='PCA counts to validate')
+    parser.add_argument('--c-values', default='0.1,1,10,100', help='RBF-SVM C values to validate')
     parser.add_argument('--final-test', action='store_true',
                         help='Use only when all method/hyperparameter choices are frozen')
     args = parser.parse_args()
