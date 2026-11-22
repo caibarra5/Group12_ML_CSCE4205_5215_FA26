@@ -128,6 +128,18 @@ print("Train participants match the split file:", set(np.unique(subjects_train))
 print("Test participants match the split file:", set(np.unique(subjects_test)) == set(test_ids))
 
 # ---------------------------------------------------------------
+# 2b. Standardize the features
+# ---------------------------------------------------------------
+# Find each feature's average and spread from the TRAIN rows only, then use
+# those same numbers on both train and test so they are on the same scale.
+feature_mean = X_train.mean(axis=0)
+feature_std = X_train.std(axis=0)
+feature_std = np.maximum(feature_std, 1e-8)  # a spread of 0 would divide by zero
+
+X_train = (X_train - feature_mean) / feature_std
+X_test = (X_test - feature_mean) / feature_std
+
+# ---------------------------------------------------------------
 # 3. Turn the train labels into the 0/1 table
 # ---------------------------------------------------------------
 y_train_onehot = one_hot(y_train, N_CLASSES)
