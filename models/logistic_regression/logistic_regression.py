@@ -6,13 +6,13 @@ Each question has its own column of 561 weights.
 What this file does, in order:
 1. Load the shared participant split and the train/test data.
 2. Check that the data files match the split file.
+2b. Tune the learning rate and steps with the cross-validation folds (the test rows are not used).
+2c. Standardize the features.
 3. Turn the labels into a 0/1 table (one column per activity).
 4. Train the weights with gradient descent (timed).
 5. Predict the test rows (timed).
 6. Score the predictions with the shared evaluate() from src/metrics.py.
 7. Save the scores to experiments/ so card 3 can compare methods.
-
-NEXT: tune the learning rate and steps with the cross-validation folds (not the test set).
 """
 import json
 import sys
@@ -29,9 +29,10 @@ from src.metrics import evaluate, timed  # noqa: E402  (must come after the sys.
 # ---------------------------------------------------------------
 # Settings and paths
 # ---------------------------------------------------------------
-LEARNING_RATE = 0.01  # how big each step downhill is (0.1 overshot, 0.01 worked)
-N_STEPS = 200         # how many times the training loop repeats
-N_CLASSES = 6         # six activities
+# Settings tried during tuning (the cross-validation folds pick the winner)
+LEARNING_RATES = [0.01, 0.03, 0.1]  # how big each step downhill is
+STEP_COUNTS = [200, 500, 1000]      # how many times the training loop repeats
+N_CLASSES = 6                       # six activities
 
 SPLIT_FILE = ROOT / "data" / "splits" / "participants.json"
 DATA = ROOT / "data" / "raw" / "UCI HAR Dataset"
@@ -74,22 +75,24 @@ def logistic_loss(y_table, probs):
     return -np.mean(y_table * np.log(probs) + (1 - y_table) * np.log(1 - probs))
 
 
-def train(X, Y_table):
+def train(X, Y_table, learning_rate, n_steps, verbose=True):
     """Train the weights with gradient descent. Returns the trained weight table.
 
     X is the features, Y_table is the 0/1 table of true answers.
+    learning_rate is how big each step is, n_steps is how many steps to take.
+    verbose=False switches off the loss printout (used while tuning).
     The weight table has one row per feature and one column per activity.
     """
     # Start at zero: the model knows nothing yet.
     W = np.zeros((X.shape[1], N_CLASSES))
 
-    for step in range(N_STEPS):
+    for step in range(n_steps):
         probs = sigmoid(X @ W)               # predict: a probability per activity
         error = probs - Y_table              # how far off, per cell
         gradient = (X.T @ error) / len(X)    # which way is uphill, per weight
-        W = W - LEARNING_RATE * gradient     # step the opposite way (downhill)
+        W = W - learning_rate * gradient     # step the opposite way (downhill)
 
-        if step % 20 == 0:                   # watch the loss fall
+        if verbose and step % 20 == 0:       # watch the loss fall
             print(f"step {step}: loss {logistic_loss(Y_table, probs):.4f}")
 
     return W
@@ -128,7 +131,41 @@ print("Train participants match the split file:", set(np.unique(subjects_train))
 print("Test participants match the split file:", set(np.unique(subjects_test)) == set(test_ids))
 
 # ---------------------------------------------------------------
-# 2b. Standardize the features
+# 2b. Tune the learning rate and steps with the cross-validation folds
+# ---------------------------------------------------------------
+# This runs BEFORE the standardizing in 2c, because each fold has to work out its own
+# average and spread from its own training people only. The test people are not used here.
+cv_folds = splits["cv_folds"]
+combos = [(lr, steps) for lr in LEARNING_RATES for steps in STEP_COUNTS]
+fold_accuracies = {combo: [] for combo in combos}  # one accuracy per fold, per combination
+
+for fold_number, held_out_ids in enumerate(cv_folds, start=1):
+    held_out = np.isin(subjects_train, held_out_ids)  # True = row belongs to the held-out people
+    X_fold_train, y_fold_train = X_train[~held_out], y_train[~held_out]
+    X_fold_val, y_fold_val = X_train[held_out], y_train[held_out]
+
+    # Average and spread from this fold's training rows only
+    fold_mean = X_fold_train.mean(axis=0)
+    fold_std = np.maximum(X_fold_train.std(axis=0), 1e-8)
+    X_fold_train = (X_fold_train - fold_mean) / fold_std
+    X_fold_val = (X_fold_val - fold_mean) / fold_std
+    Y_fold_table = one_hot(y_fold_train, N_CLASSES)
+
+    for learning_rate, n_steps in combos:
+        W = train(X_fold_train, Y_fold_table, learning_rate, n_steps, verbose=False)
+        accuracy = np.mean(predict(X_fold_val, W) == y_fold_val)
+        fold_accuracies[(learning_rate, n_steps)].append(accuracy)
+    print(f"Finished fold {fold_number} of {len(cv_folds)}")
+
+# Average each combination's accuracies over the folds, then keep the best one
+print("Mean cross-validation accuracy for each combination:")
+for combo in combos:
+    print(f"  learning rate {combo[0]}, steps {combo[1]}: {np.mean(fold_accuracies[combo]):.4f}")
+best_learning_rate, best_steps = max(combos, key=lambda c: np.mean(fold_accuracies[c]))
+print(f"Best: learning rate {best_learning_rate}, steps {best_steps}")
+
+# ---------------------------------------------------------------
+# 2c. Standardize the features
 # ---------------------------------------------------------------
 # Find each feature's average and spread from the TRAIN rows only, then use
 # those same numbers on both train and test so they are on the same scale.
@@ -150,7 +187,7 @@ print("Every row of the table adds to 1:", (y_train_onehot.sum(axis=1) == 1).all
 # ---------------------------------------------------------------
 # 4. Train (timed)
 # ---------------------------------------------------------------
-W_table, train_seconds = timed(train, X_train, y_train_onehot)
+W_table, train_seconds = timed(train, X_train, y_train_onehot, best_learning_rate, best_steps)
 
 # ---------------------------------------------------------------
 # 5. Predict the test rows (timed)
