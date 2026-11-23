@@ -1,4 +1,4 @@
-## 3.2 PCA + RBF-SVM — add real results after running
+## 3.2 PCA + RBF-SVM  
 
 We trained a supervised RBF-kernel SVM on the UCI HAR dataset's 561 engineered activity-recognition features. Our preprocessing pipeline used training-only standardization followed by student-written PCA and `sklearn.svm.SVC(kernel="rbf", gamma="scale")`. The custom PCA code centered the data, computed the sample covariance matrix, obtained eigenvectors using `numpy.linalg.eigh`, sorted them by explained variance, and projected inputs onto the leading principal components. Validation and test inputs use the transformations learned **exclusively from the relevant training participants**.
 
