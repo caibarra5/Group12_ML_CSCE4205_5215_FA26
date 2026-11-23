@@ -9,9 +9,47 @@ import pandas as pd
 import numpy as np
 import time
 
+import atexit
+import sys
+
 # File location: /models/one_d_CNN/hyperparameter_tuning.py
 
+import random
+
+def set_seed(seed):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
 ROOT = Path(__file__).resolve().parents[2]
+
+class Tee:
+    def __init__(self, *streams):
+        self.streams = streams
+
+    def write(self, text):
+        for stream in self.streams:
+            stream.write(text)
+        self.flush()
+
+    def flush(self):
+        for stream in self.streams:
+            stream.flush()
+
+
+LOG_DIR = ROOT / "experiments" / "one_d_cnn"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+log_file = open(
+    LOG_DIR / "output_of_hyperparameter_tuning.txt",
+    "w",
+    encoding="utf-8",
+    buffering=1,
+)
+sys.stdout = Tee(sys.stdout, log_file)
+atexit.register(log_file.close)
 
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
 
@@ -121,9 +159,9 @@ class Har1DCNN(nn.Module):
 # HYPERPARAMETER SEARCH GRID (3 Parameters)
 # ==========================================
 param_grid = {
-    "learning_rate": [0.01, 0.001, 0.0005, 0.0001],  # Added 0.01 and 0.0001
-    "kernel_size": [3, 5, 7, 9],                     # Added 7 and 9
-    "num_filters": [16, 32, 64, 128]                 # Added 16 and 128
+    "learning_rate": [0.01, 0.001, 0.0005, 0.0001],
+    "kernel_size": [3, 5, 7, 9],
+    "num_filters": [16, 32, 64, 128]
 }
 
 print("Hyperparameter grid:")
@@ -164,6 +202,7 @@ for config_idx, config in enumerate(hyperparameter_configs):
     # INNER LOOP: Cross-Validation Folds
     # ==========================================
     for fold_index, validation_ids in enumerate(folds):
+        set_seed(splits["seed"] + fold_index)  
         training_ids = [p for p in train_ids if p not in validation_ids]
 
         train_mask = np.isin(subjects, training_ids)
@@ -171,6 +210,14 @@ for config_idx, config in enumerate(hyperparameter_configs):
 
         X_train, y_train = X[train_mask], y[train_mask]
         X_val, y_val = X[val_mask], y[val_mask]
+
+        # Standardization here
+        channel_mean = X_train.mean(axis=(0, 2), keepdims=True)
+        channel_std = X_train.std(axis=(0, 2), keepdims=True)
+        channel_std = np.maximum(channel_std, 1e-8)
+
+        X_train = (X_train - channel_mean) / channel_std
+        X_val = (X_val - channel_mean) / channel_std
 
         train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.long))
         val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(y_val, dtype=torch.long))
@@ -234,9 +281,11 @@ for config_idx, config in enumerate(hyperparameter_configs):
 end = time.time()
 print(f"Hyperparameter tuning time: {end - start:.2f} seconds")
 
-# 3. Save all results to a CSV file in the same directory
+# 3. Save all results to a CSV file in experiments/one_d_cnn/
 results_df = pd.DataFrame(results_log)
-csv_output_path = Path(__file__).resolve().parent / "tuning_results_64.csv"
+results_dir = ROOT / "experiments" / "one_d_cnn"
+results_dir.mkdir(parents=True, exist_ok=True)
+csv_output_path = results_dir / "tuning_results_64.csv"
 results_df.to_csv(csv_output_path, index=False)
 print(f"\nSaved all 64 configurations and results to: {csv_output_path}")
 
