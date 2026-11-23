@@ -159,9 +159,9 @@ class Har1DCNN(nn.Module):
 # HYPERPARAMETER SEARCH GRID (3 Parameters)
 # ==========================================
 param_grid = {
-    "learning_rate": [0.01, 0.001, 0.0005, 0.0001],  # Added 0.01 and 0.0001
-    "kernel_size": [3, 5, 7, 9],                     # Added 7 and 9
-    "num_filters": [16, 32, 64, 128]                 # Added 16 and 128
+    "learning_rate": [0.01, 0.001, 0.0005, 0.0001],
+    "kernel_size": [3, 5, 7, 9],
+    "num_filters": [16, 32, 64, 128]
 }
 
 print("Hyperparameter grid:")
