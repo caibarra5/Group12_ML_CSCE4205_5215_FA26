@@ -20,3 +20,7 @@ Use `cv_grid_summary.csv` for the tuning table and `validation_confusion.png` an
 ### Contribution statement
 
 The PCA + RBF-SVM contribution includes `CustomPCA` with NumPy covariance/eigendecomposition/projection and the grouped cross-validation, RBF-SVM training, hyperparameter selection, shared-metrics integration, and reproducibility outputs in `src/pca_svm_custom_pca.py`, `src/pca_svm_har_data.py`, and `src/pca_rbf_svm.py`. Both standardization and PCA are fitted anew on the training participants of each validation fold, protecting the validation data from leakage. The official test set is held out until the group finishes tuning and freezes the experimental design.
+
+### Limitations
+
+The selected PCA dimensionality of 240 components lies at the upper boundary of our tested grid. Although it achieved a higher mean validation macro-F1 than 160 components, the difference was approximately 0.005, smaller than the observed fold-to-fold variability. Therefore, we cannot conclude that 240 components is globally optimal, and further dimensionality testing could be explored in future work.
