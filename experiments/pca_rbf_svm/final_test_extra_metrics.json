@@ -1,0 +1,6 @@
+{
+  "macro_precision": 0.9514939116866574,
+  "macro_recall": 0.9491761291222992,
+  "n_test_windows": 2947,
+  "prediction_ms_per_window": 0.19458059043466128
+}

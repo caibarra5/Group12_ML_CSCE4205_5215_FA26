@@ -137,6 +137,6 @@
       "accuracy": 0.9869451697127938
     }
   },
-  "train_seconds": 7.837392700021155,
-  "predict_seconds": 2.4621043000370264
+  "train_seconds": 5.780926100094803,
+  "predict_seconds": 1.3213264999794774
 }
