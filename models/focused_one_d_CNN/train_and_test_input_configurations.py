@@ -141,7 +141,7 @@ def select_input_configuration(X, configuration):
     return X[:, kept_indices, :].copy(), selected_names
 
 
-# Check the configurations. Training will be added later.
+# Checking the configurations. Training will be added later.
 # for configuration in INPUT_CONFIGURATIONS:
 #     X_train_config, selected_names = select_input_configuration(
 #         X_train_full, configuration
@@ -167,7 +167,7 @@ TUNING_PATH = (
 
 tuning_results = pd.read_csv(TUNING_PATH)
 
-# Use the same selection criterion as the baseline script.
+# The best hyperparameters from the validation tuning
 best_row = tuning_results.loc[
     tuning_results["mean_cv_accuracy"].idxmax()
 ]
@@ -478,7 +478,7 @@ for configuration in INPUT_CONFIGURATIONS:
         f.write("\n")
 
     np.savez(
-        configuration_dir / "standardization.npz",
+        configuration_dir / "standardization.npz", # save the standardization for later inputs
         channel_mean=channel_mean,
         channel_std=channel_std,
     )
@@ -494,9 +494,10 @@ for configuration in INPUT_CONFIGURATIONS:
             "channel_mean": torch.from_numpy(channel_mean),
             "channel_std": torch.from_numpy(channel_std),
         },
-        configuration_dir / "model_checkpoint.pth",
+        configuration_dir / "model_checkpoint.pth", # saved model so we don't have to train it again
     )
 
     print(f"Macro-F1: {final_metrics['macro_f1']:.4f}")
     print(f"Accuracy: {final_metrics['accuracy']:.4f}")
     print(f"Saved results to: {configuration_dir}")
+
