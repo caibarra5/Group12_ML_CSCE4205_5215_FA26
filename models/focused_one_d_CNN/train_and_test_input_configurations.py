@@ -154,3 +154,84 @@ for configuration in INPUT_CONFIGURATIONS:
     print("Retained channels:", selected_names)
     print("Training shape:", X_train_config.shape)
     print("Test shape:", X_test_config.shape)
+
+
+# Now we will define the architecture
+
+# 7. Load the best hyperparameters from the baseline tuning results.
+import pandas as pd
+
+TUNING_PATH = (
+    ROOT / "experiments" / "one_d_cnn" / "tuning_results_64.csv"
+)
+
+tuning_results = pd.read_csv(TUNING_PATH)
+
+# Use the same selection criterion as the baseline script.
+best_row = tuning_results.loc[
+    tuning_results["mean_cv_accuracy"].idxmax()
+]
+
+best_config = {
+    "learning_rate": float(best_row["learning_rate"]),
+    "kernel_size": int(best_row["kernel_size"]),
+    "num_filters": int(best_row["num_filters"]),
+}
+
+print("\nFixed hyperparameters for all input configurations:")
+print(best_config)
+
+
+# 8. Define the same CNN architecture as the baseline. The number of input channels will be set with X_train_config.shape[1]. 
+# Output channels for each layer will not change.
+class Har1DCNN(nn.Module):
+    def __init__(
+        self,
+        in_channels,
+        num_classes=6,
+        kernel_size=3,
+        num_filters=32,
+        dropout=0.5,
+    ):
+        super().__init__()
+
+        self.conv1 = nn.Conv1d(
+            in_channels,
+            num_filters,
+            kernel_size=kernel_size,
+            padding=kernel_size // 2,
+        )
+
+        self.relu = nn.ReLU()
+        self.pool = nn.MaxPool1d(kernel_size=2, stride=2)
+
+        self.conv2 = nn.Conv1d(
+            num_filters,
+            num_filters * 2,
+            kernel_size=kernel_size,
+            padding=kernel_size // 2,
+        )
+
+        self.global_pool = nn.AdaptiveAvgPool1d(1)
+
+        self.fc = nn.Sequential(
+            nn.Linear(num_filters * 2, 64),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(64, num_classes),
+        )
+
+    def forward(self, x):
+        x = self.pool(self.relu(self.conv1(x)))
+        x = self.pool(self.relu(self.conv2(x)))
+        x = self.global_pool(x)
+        x = x.view(x.size(0), -1)
+        return self.fc(x)
+
+
+# these settings are from the baseline, so all of the model instances should use them
+BATCH_SIZE = 64
+NUM_EPOCHS = 5
+DROPOUT = 0.5
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
