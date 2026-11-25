@@ -9,7 +9,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 from src.metrics import evaluate
 
-
+# Loading the data, defining the channel order, and verifying the splits.
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "raw" / "UCI HAR Dataset"
 SPLIT_PATH = ROOT / "data" / "splits" / "participants.json"
@@ -97,3 +97,60 @@ print("\nTest shapes:")
 print("X:", X_test.shape)
 print("y:", y_test.shape)
 print("subjects:", subjects_test.shape)
+
+# Now we will make the setup for the input configuraitons
+
+# 6. Define the signal groups and input configurations.
+SIGNAL_GROUPS = {
+    "body_acceleration": [0, 1, 2],
+    "angular_velocity": [3, 4, 5],
+    "total_acceleration": [6, 7, 8],
+}
+
+# Each configuration lists the signal groups to remove.
+INPUT_CONFIGURATIONS = {
+    "all_inputs": [],
+    "without_total_acceleration": ["total_acceleration"],
+    "without_body_acceleration": ["body_acceleration"],
+    "without_angular_velocity": ["angular_velocity"],
+    "without_both_accelerations": [
+        "body_acceleration",
+        "total_acceleration",
+    ],
+}
+
+
+def select_input_configuration(X, configuration):
+    """Return selected channels and their names without changing X."""
+    removed_groups = INPUT_CONFIGURATIONS[configuration]
+
+    removed_indices = {
+        index
+        for group in removed_groups
+        for index in SIGNAL_GROUPS[group]
+    }
+
+    kept_indices = [
+        index
+        for index in range(len(CHANNEL_NAMES))
+        if index not in removed_indices
+    ]
+
+    selected_names = [CHANNEL_NAMES[index] for index in kept_indices]
+
+    return X[:, kept_indices, :].copy(), selected_names
+
+
+# Check the configurations. Training will be added later.
+for configuration in INPUT_CONFIGURATIONS:
+    X_train_config, selected_names = select_input_configuration(
+        X_train_full, configuration
+    )
+    X_test_config, _ = select_input_configuration(
+        X_test, configuration
+    )
+
+    print(f"\nConfiguration: {configuration}")
+    print("Retained channels:", selected_names)
+    print("Training shape:", X_train_config.shape)
+    print("Test shape:", X_test_config.shape)
