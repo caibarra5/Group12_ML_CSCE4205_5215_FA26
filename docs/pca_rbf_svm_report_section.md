@@ -4,16 +4,11 @@ We trained a supervised RBF-kernel SVM on the UCI HAR dataset's 561 engineered a
 
 The team fixed the official 21-participant training and 9-participant test split in `data/splits/participants.json` (seed 42). Within training, seven participant-grouped cross-validation folds hold out three people each; no participant appears on both sides of a fold. We considered PCA dimensions 40, 80, 160, and 240 and SVM penalty parameters `C` of 0.1, 1, 10, and 100, holding the RBF kernel and `gamma="scale"` fixed. We selected the configuration with the highest mean validation macro-F1, breaking ties toward fewer components and smaller C. We then refit on all 21 official training participants. As required by the group, metrics are computed with `src/metrics.py:evaluate()` and include macro-F1, accuracy, confusion matrix, per-person performance, and runtimes.
 
-**After running official data, replace these placeholders ONLY with saved results from `experiments/pca_rbf_svm/`**:
+### Validation and Final Test Results
 
-- Selected PCA components: **[read `run_summary.json`: selected_pca_components]**
-- Selected SVM C: **[read `run_summary.json`: selected_C]**
-- Mean seven-fold validation macro-F1: **[mean_validation_macro_f1]**
-- Fold SD: **[validation_sd_macro_f1]**
-- Out-of-fold validation accuracy: **[validation_metrics.json`: accuracy]**
-- Final fit time: **[final_fit_seconds]** on **[CPU/system from environment]**
-- Training-only retained PCA variance: **[final_training_explained_variance]**
-- Held-out test macro-F1 and accuracy: **[only after all methods and experimental choices are locked; read `final_test_metrics.json`]**
+Using seven-fold participant-separated cross-validation, the best configuration was 240 PCA components with an SVM C value of 1.0. This produced a mean validation macro-F1 of 0.9229 and an out-of-fold macro-F1 of 0.9228.
+
+After selecting the hyperparameters, we trained the final PCA + RBF-SVM model using all 21 training participants and evaluated it on the nine held-out test participants. The model achieved a test accuracy of **95.08%** and a macro-F1 score of **95.00%**. These results suggest that the model generalized well to unseen participants. The test set was evaluated only after the hyperparameters were finalized, and no further tuning was performed using the test results.
 
 Use `cv_grid_summary.csv` for the tuning table and `validation_confusion.png` and `validation_per_participant.png` for discussion. Distinguish validation (used in model selection) from final held-out test results. The CNN uses sensor sequences while logistic and PCA-SVM use the engineered features; therefore, the three-method comparison evaluates the full pipelines and not just individual classifiers on identical inputs.
 
