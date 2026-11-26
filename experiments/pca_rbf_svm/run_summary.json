@@ -96,9 +96,9 @@
   "validation_sd_macro_f1": 0.02593644979844929,
   "out_of_fold_validation_macro_f1": 0.9228075776108194,
   "out_of_fold_validation_accuracy": 0.9247823721436343,
-  "final_fit_seconds": 1.1878356999950483,
+  "final_fit_seconds": 0.6473144000046887,
   "final_training_explained_variance": 0.9969717389197503,
-  "official_test_evaluated": false,
+  "official_test_evaluated": true,
   "environment": {
     "python": "3.13.5",
     "numpy": "2.5.5",
@@ -106,5 +106,7 @@
     "os": "Windows-11-10.0.26300-SP0",
     "cpu": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
     "logical_cpus": 16
-  }
+  },
+  "official_test_macro_f1": 0.9499554887114949,
+  "official_test_accuracy": 0.9507974211062097
 }
