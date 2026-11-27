@@ -1,0 +1,12 @@
+| Configuration                    | Activity group      |   Macro-precision |   Precision decrease from baseline |   Macro-recall |   Recall decrease from baseline |   Macro-f1 |   F1 decrease from baseline |
+|:---------------------------------|:--------------------|------------------:|-----------------------------------:|---------------:|--------------------------------:|-----------:|----------------------------:|
+| All inputs (baseline)            | Walking activities  |            0.9546 |                             0.0000 |         0.9610 |                          0.0000 |     0.9578 |                      0.0000 |
+| All inputs (baseline)            | Stationary postures |            0.8674 |                             0.0000 |         0.8623 |                          0.0000 |     0.8648 |                      0.0000 |
+| Without angular velocity         | Walking activities  |            0.9215 |                             0.0331 |         0.9467 |                          0.0143 |     0.9332 |                      0.0246 |
+| Without angular velocity         | Stationary postures |            0.8609 |                             0.0064 |         0.8400 |                          0.0223 |     0.8502 |                      0.0146 |
+| Without both acceleration groups | Walking activities  |            0.8620 |                             0.0926 |         0.8705 |                          0.0904 |     0.8649 |                      0.0929 |
+| Without both acceleration groups | Stationary postures |            0.5371 |                             0.3302 |         0.3753 |                          0.4871 |     0.2677 |                      0.5971 |
+| Without body acceleration        | Walking activities  |            0.9092 |                             0.0455 |         0.9300 |                          0.0310 |     0.9158 |                      0.0419 |
+| Without body acceleration        | Stationary postures |            0.8784 |                            -0.0110 |         0.8605 |                          0.0018 |     0.8691 |                     -0.0043 |
+| Without total acceleration       | Walking activities  |            0.9478 |                             0.0068 |         0.9482 |                          0.0128 |     0.9479 |                      0.0099 |
+| Without total acceleration       | Stationary postures |            0.4932 |                             0.3741 |         0.3791 |                          0.4832 |     0.2669 |                      0.5979 |

@@ -1,0 +1,7 @@
+| Configuration                    |   Macro-F1 |   Accuracy |   Macro-precision |   Macro-recall |   Macro-F1 decrease from baseline |   Accuracy decrease from baseline |   Training time (s) |   Prediction time (s) |
+|:---------------------------------|-----------:|-----------:|------------------:|---------------:|----------------------------------:|----------------------------------:|--------------------:|----------------------:|
+| All inputs (baseline)            |     0.9113 |     0.9108 |            0.9110 |         0.9116 |                            0.0000 |                            0.0000 |             14.9628 |                0.4357 |
+| Without angular velocity         |     0.8917 |     0.8907 |            0.8912 |         0.8933 |                            0.0196 |                            0.0200 |             13.0132 |                0.4279 |
+| Without both acceleration groups |     0.5663 |     0.6128 |            0.6996 |         0.6229 |                            0.3450 |                            0.2979 |             12.2157 |                0.3565 |
+| Without body acceleration        |     0.8925 |     0.8931 |            0.8938 |         0.8953 |                            0.0188 |                            0.0176 |             12.7497 |                0.3389 |
+| Without total acceleration       |     0.6074 |     0.6529 |            0.7205 |         0.6636 |                            0.3039 |                            0.2579 |             13.7451 |                0.3791 |

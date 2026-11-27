@@ -44,12 +44,22 @@ METRICS = {
 }
 
 def save_table(table, filename):
+    csv_path = OUTPUT_DIR / filename
+    markdown_path = csv_path.with_suffix(".md")
+
     table.to_csv(
-        OUTPUT_DIR / filename,
+        csv_path,
         index=False,
         float_format="%.6f",
     )
-    print(f"Saved: {OUTPUT_DIR / filename}")
+
+    markdown_path.write_text(
+        table.to_markdown(index=False, floatfmt=".4f") + "\n",
+        encoding="utf-8",
+    )
+
+    print(f"Saved: {csv_path}")
+    print(f"Saved: {markdown_path}")
 
 
 def group_scores(activity_results, activities):
