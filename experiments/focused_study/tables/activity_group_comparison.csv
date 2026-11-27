@@ -1,0 +1,11 @@
+Configuration,Activity group,Macro-precision,Precision decrease from baseline,Macro-recall,Recall decrease from baseline,Macro-f1,F1 decrease from baseline
+All inputs (baseline),Walking activities,0.954642,0.000000,0.960965,0.000000,0.957766,0.000000
+All inputs (baseline),Stationary postures,0.867382,0.000000,0.862313,0.000000,0.864826,0.000000
+Without angular velocity,Walking activities,0.921542,0.033100,0.946663,0.014302,0.933212,0.024554
+Without angular velocity,Stationary postures,0.860943,0.006438,0.840000,0.022313,0.850244,0.014582
+Without both acceleration groups,Walking activities,0.861995,0.092648,0.870523,0.090442,0.864866,0.092900
+Without both acceleration groups,Stationary postures,0.537148,0.330234,0.375262,0.487051,0.267739,0.597087
+Without body acceleration,Walking activities,0.909168,0.045474,0.929996,0.030968,0.915833,0.041933
+Without body acceleration,Stationary postures,0.878403,-0.011021,0.860526,0.001787,0.869147,-0.004321
+Without total acceleration,Walking activities,0.947849,0.006794,0.948160,0.012805,0.947902,0.009864
+Without total acceleration,Stationary postures,0.493245,0.374137,0.379113,0.483200,0.266878,0.597949

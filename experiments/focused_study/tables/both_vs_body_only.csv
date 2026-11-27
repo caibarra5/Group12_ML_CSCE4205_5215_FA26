@@ -1,0 +1,7 @@
+Activity group,Metric,Without body acceleration,Without both acceleration groups,Additional decrease when removing both
+Walking activities,Macro-precision,0.909168,0.861995,0.047173
+Walking activities,Macro-recall,0.929996,0.870523,0.059473
+Walking activities,Macro-f1,0.915833,0.864866,0.050967
+Stationary postures,Macro-precision,0.878403,0.537148,0.341255
+Stationary postures,Macro-recall,0.860526,0.375262,0.485264
+Stationary postures,Macro-f1,0.869147,0.267739,0.601408
