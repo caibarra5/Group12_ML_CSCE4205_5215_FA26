@@ -42,3 +42,22 @@ METRICS = {
     "recall": "Recall",
     "f1-score": "F1",
 }
+
+def save_table(table, filename):
+    table.to_csv(
+        OUTPUT_DIR / filename,
+        index=False,
+        float_format="%.6f",
+    )
+    print(f"Saved: {OUTPUT_DIR / filename}")
+
+
+def group_scores(activity_results, activities):
+    """Equal-weight average of the three activities' metrics."""
+    return {
+        label: float(np.mean([
+            activity_results[activity][key]
+            for activity in activities
+        ]))
+        for key, label in METRICS.items()
+    }
