@@ -1,0 +1,476 @@
+{
+    "macro_f1": 0.5663026124449139,
+    "accuracy": 0.6128266033254157,
+    "confusion_matrix": [
+        [
+            410,
+            12,
+            74,
+            0,
+            0,
+            0
+        ],
+        [
+            4,
+            437,
+            30,
+            0,
+            0,
+            0
+        ],
+        [
+            36,
+            24,
+            360,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            6,
+            0,
+            57,
+            3,
+            425
+        ],
+        [
+            1,
+            3,
+            0,
+            42,
+            22,
+            464
+        ],
+        [
+            0,
+            3,
+            0,
+            8,
+            6,
+            520
+        ]
+    ],
+    "per_participant": {
+        "2": {
+            "macro_f1": 0.6160786682882432,
+            "accuracy": 0.6754966887417219
+        },
+        "4": {
+            "macro_f1": 0.6188417047186209,
+            "accuracy": 0.6782334384858044
+        },
+        "9": {
+            "macro_f1": 0.4345013270040105,
+            "accuracy": 0.46875
+        },
+        "10": {
+            "macro_f1": 0.4931923553856126,
+            "accuracy": 0.5544217687074829
+        },
+        "12": {
+            "macro_f1": 0.6284911463096188,
+            "accuracy": 0.665625
+        },
+        "13": {
+            "macro_f1": 0.6014872655262548,
+            "accuracy": 0.6666666666666666
+        },
+        "18": {
+            "macro_f1": 0.546886051578254,
+            "accuracy": 0.6016483516483516
+        },
+        "20": {
+            "macro_f1": 0.561467577193039,
+            "accuracy": 0.576271186440678
+        },
+        "24": {
+            "macro_f1": 0.5747481297600685,
+            "accuracy": 0.6167979002624672
+        }
+    },
+    "train_seconds": 12.215668100048788,
+    "predict_seconds": 0.3565250000101514,
+    "per_activity": {
+        "walking": {
+            "precision": 0.9090909090909091,
+            "recall": 0.8266129032258065,
+            "f1-score": 0.8658922914466737,
+            "support": 496.0
+        },
+        "walking_upstairs": {
+            "precision": 0.9010309278350516,
+            "recall": 0.9278131634819533,
+            "f1-score": 0.9142259414225942,
+            "support": 471.0
+        },
+        "walking_downstairs": {
+            "precision": 0.7758620689655172,
+            "recall": 0.8571428571428571,
+            "f1-score": 0.8144796380090498,
+            "support": 420.0
+        },
+        "sitting": {
+            "precision": 0.5327102803738317,
+            "recall": 0.11608961303462322,
+            "f1-score": 0.19063545150501673,
+            "support": 491.0
+        },
+        "standing": {
+            "precision": 0.7096774193548387,
+            "recall": 0.041353383458646614,
+            "f1-score": 0.07815275310834814,
+            "support": 532.0
+        },
+        "lying_down": {
+            "precision": 0.36905606813342795,
+            "recall": 0.9683426443202979,
+            "f1-score": 0.5344295991778006,
+            "support": 537.0
+        }
+    },
+    "per_participant_activity": {
+        "2": {
+            "walking": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1-score": 1.0,
+                "support": 59.0
+            },
+            "walking_upstairs": {
+                "precision": 0.8727272727272727,
+                "recall": 1.0,
+                "f1-score": 0.9320388349514563,
+                "support": 48.0
+            },
+            "walking_downstairs": {
+                "precision": 1.0,
+                "recall": 0.851063829787234,
+                "f1-score": 0.9195402298850575,
+                "support": 47.0
+            },
+            "sitting": {
+                "precision": 0.7777777777777778,
+                "recall": 0.15217391304347827,
+                "f1-score": 0.2545454545454545,
+                "support": 46.0
+            },
+            "standing": {
+                "precision": 1.0,
+                "recall": 0.037037037037037035,
+                "f1-score": 0.07142857142857142,
+                "support": 54.0
+            },
+            "lying_down": {
+                "precision": 0.35036496350364965,
+                "recall": 1.0,
+                "f1-score": 0.518918918918919,
+                "support": 48.0
+            }
+        },
+        "4": {
+            "walking": {
+                "precision": 0.9827586206896551,
+                "recall": 0.95,
+                "f1-score": 0.9661016949152542,
+                "support": 60.0
+            },
+            "walking_upstairs": {
+                "precision": 0.9811320754716981,
+                "recall": 1.0,
+                "f1-score": 0.9904761904761905,
+                "support": 52.0
+            },
+            "walking_downstairs": {
+                "precision": 0.9361702127659575,
+                "recall": 0.9777777777777777,
+                "f1-score": 0.9565217391304348,
+                "support": 45.0
+            },
+            "sitting": {
+                "precision": 0.3888888888888889,
+                "recall": 0.14,
+                "f1-score": 0.20588235294117646,
+                "support": 50.0
+            },
+            "standing": {
+                "precision": 0.5,
+                "recall": 0.017857142857142856,
+                "f1-score": 0.034482758620689655,
+                "support": 56.0
+            },
+            "lying_down": {
+                "precision": 0.38848920863309355,
+                "recall": 1.0,
+                "f1-score": 0.5595854922279793,
+                "support": 54.0
+            }
+        },
+        "9": {
+            "walking": {
+                "precision": 0.6216216216216216,
+                "recall": 0.4423076923076923,
+                "f1-score": 0.5168539325842697,
+                "support": 52.0
+            },
+            "walking_upstairs": {
+                "precision": 0.8484848484848485,
+                "recall": 0.5714285714285714,
+                "f1-score": 0.6829268292682927,
+                "support": 49.0
+            },
+            "walking_downstairs": {
+                "precision": 0.3717948717948718,
+                "recall": 0.6904761904761905,
+                "f1-score": 0.48333333333333334,
+                "support": 42.0
+            },
+            "sitting": {
+                "precision": 0.6666666666666666,
+                "recall": 0.2,
+                "f1-score": 0.3076923076923077,
+                "support": 50.0
+            },
+            "standing": {
+                "precision": 0.375,
+                "recall": 0.06666666666666667,
+                "f1-score": 0.11320754716981132,
+                "support": 45.0
+            },
+            "lying_down": {
+                "precision": 0.358974358974359,
+                "recall": 0.84,
+                "f1-score": 0.5029940119760479,
+                "support": 50.0
+            }
+        },
+        "10": {
+            "walking": {
+                "precision": 0.9523809523809523,
+                "recall": 0.37735849056603776,
+                "f1-score": 0.5405405405405406,
+                "support": 53.0
+            },
+            "walking_upstairs": {
+                "precision": 0.746031746031746,
+                "recall": 1.0,
+                "f1-score": 0.8545454545454545,
+                "support": 47.0
+            },
+            "walking_downstairs": {
+                "precision": 0.5789473684210527,
+                "recall": 0.868421052631579,
+                "f1-score": 0.6947368421052632,
+                "support": 38.0
+            },
+            "sitting": {
+                "precision": 0.7272727272727273,
+                "recall": 0.14814814814814814,
+                "f1-score": 0.24615384615384617,
+                "support": 54.0
+            },
+            "standing": {
+                "precision": 0.6666666666666666,
+                "recall": 0.045454545454545456,
+                "f1-score": 0.0851063829787234,
+                "support": 44.0
+            },
+            "lying_down": {
+                "precision": 0.381294964028777,
+                "recall": 0.9137931034482759,
+                "f1-score": 0.5380710659898477,
+                "support": 58.0
+            }
+        },
+        "12": {
+            "walking": {
+                "precision": 1.0,
+                "recall": 0.92,
+                "f1-score": 0.9583333333333334,
+                "support": 50.0
+            },
+            "walking_upstairs": {
+                "precision": 0.9272727272727272,
+                "recall": 0.9807692307692307,
+                "f1-score": 0.9532710280373832,
+                "support": 52.0
+            },
+            "walking_downstairs": {
+                "precision": 0.92,
+                "recall": 1.0,
+                "f1-score": 0.9583333333333334,
+                "support": 46.0
+            },
+            "sitting": {
+                "precision": 0.6363636363636364,
+                "recall": 0.13725490196078433,
+                "f1-score": 0.22580645161290322,
+                "support": 51.0
+            },
+            "standing": {
+                "precision": 0.8,
+                "recall": 0.06557377049180328,
+                "f1-score": 0.12121212121212122,
+                "support": 61.0
+            },
+            "lying_down": {
+                "precision": 0.38562091503267976,
+                "recall": 0.9833333333333333,
+                "f1-score": 0.5539906103286385,
+                "support": 60.0
+            }
+        },
+        "13": {
+            "walking": {
+                "precision": 0.9298245614035088,
+                "recall": 0.9298245614035088,
+                "f1-score": 0.9298245614035088,
+                "support": 57.0
+            },
+            "walking_upstairs": {
+                "precision": 1.0,
+                "recall": 0.9818181818181818,
+                "f1-score": 0.9908256880733946,
+                "support": 55.0
+            },
+            "walking_downstairs": {
+                "precision": 0.9166666666666666,
+                "recall": 0.9361702127659575,
+                "f1-score": 0.9263157894736842,
+                "support": 47.0
+            },
+            "sitting": {
+                "precision": 0.625,
+                "recall": 0.10204081632653061,
+                "f1-score": 0.17543859649122806,
+                "support": 49.0
+            },
+            "standing": {
+                "precision": 1.0,
+                "recall": 0.017543859649122806,
+                "f1-score": 0.034482758620689655,
+                "support": 57.0
+            },
+            "lying_down": {
+                "precision": 0.3836477987421384,
+                "recall": 0.9838709677419355,
+                "f1-score": 0.5520361990950227,
+                "support": 62.0
+            }
+        },
+        "18": {
+            "walking": {
+                "precision": 0.8888888888888888,
+                "recall": 1.0,
+                "f1-score": 0.9411764705882353,
+                "support": 56.0
+            },
+            "walking_upstairs": {
+                "precision": 0.8169014084507042,
+                "recall": 1.0,
+                "f1-score": 0.8992248062015504,
+                "support": 58.0
+            },
+            "walking_downstairs": {
+                "precision": 1.0,
+                "recall": 0.6363636363636364,
+                "f1-score": 0.7777777777777778,
+                "support": 55.0
+            },
+            "sitting": {
+                "precision": 1.0,
+                "recall": 0.05263157894736842,
+                "f1-score": 0.1,
+                "support": 57.0
+            },
+            "standing": {
+                "precision": 1.0,
+                "recall": 0.0273972602739726,
+                "f1-score": 0.05333333333333334,
+                "support": 73.0
+            },
+            "lying_down": {
+                "precision": 0.34210526315789475,
+                "recall": 1.0,
+                "f1-score": 0.5098039215686274,
+                "support": 65.0
+            }
+        },
+        "20": {
+            "walking": {
+                "precision": 0.9148936170212766,
+                "recall": 0.8431372549019608,
+                "f1-score": 0.8775510204081632,
+                "support": 51.0
+            },
+            "walking_upstairs": {
+                "precision": 1.0,
+                "recall": 0.7843137254901961,
+                "f1-score": 0.8791208791208791,
+                "support": 51.0
+            },
+            "walking_downstairs": {
+                "precision": 0.7213114754098361,
+                "recall": 0.9777777777777777,
+                "f1-score": 0.8301886792452831,
+                "support": 45.0
+            },
+            "sitting": {
+                "precision": 0.25,
+                "recall": 0.09090909090909091,
+                "f1-score": 0.13333333333333333,
+                "support": 66.0
+            },
+            "standing": {
+                "precision": 1.0,
+                "recall": 0.0547945205479452,
+                "f1-score": 0.1038961038961039,
+                "support": 73.0
+            },
+            "lying_down": {
+                "precision": 0.37640449438202245,
+                "recall": 0.9852941176470589,
+                "f1-score": 0.5447154471544715,
+                "support": 68.0
+            }
+        },
+        "24": {
+            "walking": {
+                "precision": 0.8412698412698413,
+                "recall": 0.9137931034482759,
+                "f1-score": 0.8760330578512396,
+                "support": 58.0
+            },
+            "walking_upstairs": {
+                "precision": 0.9672131147540983,
+                "recall": 1.0,
+                "f1-score": 0.9833333333333333,
+                "support": 59.0
+            },
+            "walking_downstairs": {
+                "precision": 0.9375,
+                "recall": 0.8181818181818182,
+                "f1-score": 0.8737864077669902,
+                "support": 55.0
+            },
+            "sitting": {
+                "precision": 0.5,
+                "recall": 0.058823529411764705,
+                "f1-score": 0.10526315789473684,
+                "support": 68.0
+            },
+            "standing": {
+                "precision": 0.75,
+                "recall": 0.043478260869565216,
+                "f1-score": 0.0821917808219178,
+                "support": 69.0
+            },
+            "lying_down": {
+                "precision": 0.3604060913705584,
+                "recall": 0.9861111111111112,
+                "f1-score": 0.5278810408921933,
+                "support": 72.0
+            }
+        }
+    }
+}

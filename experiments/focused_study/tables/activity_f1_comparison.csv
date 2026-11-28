@@ -1,0 +1,7 @@
+Activity,All inputs (baseline),Without angular velocity,Without both acceleration groups,Without body acceleration,Without total acceleration
+walking,0.995984,0.949654,0.865892,0.941799,0.988048
+walking upstairs,0.935857,0.894450,0.914226,0.912997,0.926829
+walking downstairs,0.941458,0.955530,0.814480,0.892704,0.928830
+sitting,0.787755,0.773663,0.190635,0.791030,0.163823
+standing,0.811374,0.801878,0.078153,0.818270,0.093588
+lying down,0.995349,0.975191,0.534430,0.998141,0.543223

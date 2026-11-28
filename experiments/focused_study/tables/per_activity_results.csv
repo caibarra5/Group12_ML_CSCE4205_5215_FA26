@@ -1,0 +1,31 @@
+Configuration,Activity,Support,Precision,Precision decrease from baseline,Recall,Recall decrease from baseline,F1,F1 decrease from baseline
+All inputs (baseline),walking,496,0.992000,0.000000,1.000000,0.000000,0.995984,0.000000
+All inputs (baseline),walking upstairs,471,0.927083,0.000000,0.944798,0.000000,0.935857,0.000000
+All inputs (baseline),walking downstairs,420,0.944844,0.000000,0.938095,0.000000,0.941458,0.000000
+All inputs (baseline),sitting,491,0.789366,0.000000,0.786151,0.000000,0.787755,0.000000
+All inputs (baseline),standing,532,0.818356,0.000000,0.804511,0.000000,0.811374,0.000000
+All inputs (baseline),lying down,537,0.994424,0.000000,0.996276,0.000000,0.995349,0.000000
+Without angular velocity,walking,496,0.930368,0.061632,0.969758,0.030242,0.949654,0.046329
+Without angular velocity,walking upstairs,471,0.917411,0.009673,0.872611,0.072187,0.894450,0.041407
+Without angular velocity,walking downstairs,420,0.916849,0.027995,0.997619,-0.059524,0.955530,-0.014073
+Without angular velocity,sitting,491,0.781705,0.007661,0.765784,0.020367,0.773663,0.014093
+Without angular velocity,standing,532,0.801126,0.017230,0.802632,0.001880,0.801878,0.009496
+Without angular velocity,lying down,537,1.000000,-0.005576,0.951583,0.044693,0.975191,0.020158
+Without both acceleration groups,walking,496,0.909091,0.082909,0.826613,0.173387,0.865892,0.130092
+Without both acceleration groups,walking upstairs,471,0.901031,0.026052,0.927813,0.016985,0.914226,0.021631
+Without both acceleration groups,walking downstairs,420,0.775862,0.168982,0.857143,0.080952,0.814480,0.126978
+Without both acceleration groups,sitting,491,0.532710,0.256656,0.116090,0.670061,0.190635,0.597120
+Without both acceleration groups,standing,532,0.709677,0.108678,0.041353,0.763158,0.078153,0.733222
+Without both acceleration groups,lying down,537,0.369056,0.625368,0.968343,0.027933,0.534430,0.460919
+Without body acceleration,walking,496,0.991091,0.000909,0.897177,0.102823,0.941799,0.054185
+Without body acceleration,walking upstairs,471,0.923913,0.003170,0.902335,0.042463,0.912997,0.022860
+Without body acceleration,walking downstairs,420,0.812500,0.132344,0.990476,-0.052381,0.892704,0.048754
+Without body acceleration,sitting,491,0.791837,-0.002471,0.790224,-0.004073,0.791030,-0.003274
+Without body acceleration,standing,532,0.847082,-0.028727,0.791353,0.013158,0.818270,-0.006896
+Without body acceleration,lying down,537,0.996289,-0.001866,1.000000,-0.003724,0.998141,-0.002792
+Without total acceleration,walking,496,0.976378,0.015622,1.000000,0.000000,0.988048,0.007936
+Without total acceleration,walking upstairs,471,0.925847,0.001236,0.927813,0.016985,0.926829,0.009028
+Without total acceleration,walking downstairs,420,0.941320,0.003524,0.916667,0.021429,0.928830,0.012628
+Without total acceleration,sitting,491,0.505263,0.284103,0.097760,0.688391,0.163823,0.623933
+Without total acceleration,standing,532,0.600000,0.218356,0.050752,0.753759,0.093588,0.717787
+Without total acceleration,lying down,537,0.374471,0.619953,0.988827,0.007449,0.543223,0.452126

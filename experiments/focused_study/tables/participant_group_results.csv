@@ -1,0 +1,91 @@
+Participant ID,Configuration,Activity group,Macro-precision,Precision decrease from baseline,Macro-recall,Recall decrease from baseline,Macro-f1,F1 decrease from baseline
+2,All inputs (baseline),Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+4,All inputs (baseline),Walking activities,0.955556,0.000000,0.940741,0.000000,0.943670,0.000000
+9,All inputs (baseline),Walking activities,0.953907,0.000000,0.986395,0.000000,0.969802,0.000000
+10,All inputs (baseline),Walking activities,0.656561,0.000000,0.680664,0.000000,0.667369,0.000000
+12,All inputs (baseline),Walking activities,0.987654,0.000000,0.992754,0.000000,0.990048,0.000000
+13,All inputs (baseline),Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+18,All inputs (baseline),Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+20,All inputs (baseline),Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+24,All inputs (baseline),Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,All inputs (baseline),Stationary postures,0.875969,0.000000,0.768116,0.000000,0.746032,0.000000
+4,All inputs (baseline),Stationary postures,0.856061,0.000000,0.773810,0.000000,0.737041,0.000000
+9,All inputs (baseline),Stationary postures,0.535604,0.000000,0.594074,0.000000,0.528877,0.000000
+10,All inputs (baseline),Stationary postures,0.661438,0.000000,0.644230,0.000000,0.650505,0.000000
+12,All inputs (baseline),Stationary postures,1.000000,0.000000,0.994536,0.000000,0.997245,0.000000
+13,All inputs (baseline),Stationary postures,0.950249,0.000000,0.931973,0.000000,0.935239,0.000000
+18,All inputs (baseline),Stationary postures,0.952941,0.000000,0.929825,0.000000,0.935468,0.000000
+20,All inputs (baseline),Stationary postures,0.963415,0.000000,0.954545,0.000000,0.956255,0.000000
+24,All inputs (baseline),Stationary postures,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without angular velocity,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+4,Without angular velocity,Walking activities,1.000000,-0.044444,1.000000,-0.059259,1.000000,-0.056330
+9,Without angular velocity,Walking activities,0.746894,0.207013,0.768707,0.217687,0.721342,0.248460
+10,Without angular velocity,Walking activities,0.647680,0.008882,0.745544,-0.064879,0.668017,-0.000648
+12,Without angular velocity,Walking activities,0.979836,0.007818,0.980513,0.012241,0.979979,0.010069
+13,Without angular velocity,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+18,Without angular velocity,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+20,Without angular velocity,Walking activities,0.987421,0.012579,0.986928,0.013072,0.986923,0.013077
+24,Without angular velocity,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without angular velocity,Stationary postures,0.871212,0.004757,0.753623,0.014493,0.724785,0.021246
+4,Without angular velocity,Stationary postures,0.853933,0.002128,0.767857,0.005952,0.728393,0.008649
+9,Without angular velocity,Stationary postures,0.485944,0.049660,0.586667,0.007407,0.523810,0.005068
+10,Without angular velocity,Stationary postures,0.658547,0.002891,0.506299,0.137931,0.558375,0.092130
+12,Without angular velocity,Stationary postures,0.994624,0.005376,0.993464,0.001071,0.993990,0.003256
+13,Without angular velocity,Stationary postures,0.946078,0.004170,0.925170,0.006803,0.928521,0.006718
+18,Without angular velocity,Stationary postures,0.946360,0.006581,0.918129,0.011696,0.924167,0.011301
+20,Without angular velocity,Stationary postures,0.949612,0.013802,0.934343,0.020202,0.936332,0.019923
+24,Without angular velocity,Stationary postures,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without both acceleration groups,Walking activities,0.957576,0.042424,0.950355,0.049645,0.950526,0.049474
+4,Without both acceleration groups,Walking activities,0.966687,-0.011131,0.975926,-0.035185,0.971033,-0.027363
+9,Without both acceleration groups,Walking activities,0.613967,0.339940,0.568071,0.418324,0.561038,0.408763
+10,Without both acceleration groups,Walking activities,0.759120,-0.102559,0.748593,-0.067929,0.696608,-0.029239
+12,Without both acceleration groups,Walking activities,0.949091,0.038563,0.966923,0.025831,0.956646,0.033402
+13,Without both acceleration groups,Walking activities,0.948830,0.051170,0.949271,0.050729,0.948989,0.051011
+18,Without both acceleration groups,Walking activities,0.901930,0.098070,0.878788,0.121212,0.872726,0.127274
+20,Without both acceleration groups,Walking activities,0.878735,0.121265,0.868410,0.131590,0.862287,0.137713
+24,Without both acceleration groups,Walking activities,0.915328,0.084672,0.910658,0.089342,0.911051,0.088949
+2,Without both acceleration groups,Stationary postures,0.709381,0.166588,0.396404,0.371712,0.281631,0.464401
+4,Without both acceleration groups,Stationary postures,0.425793,0.430268,0.385952,0.387857,0.266650,0.470391
+9,Without both acceleration groups,Stationary postures,0.466880,0.068723,0.368889,0.225185,0.307965,0.220912
+10,Without both acceleration groups,Stationary postures,0.591745,0.069693,0.369132,0.275098,0.289777,0.360728
+12,Without both acceleration groups,Stationary postures,0.607328,0.392672,0.395387,0.599148,0.300336,0.696909
+13,Without both acceleration groups,Stationary postures,0.669549,0.280699,0.367819,0.564154,0.253986,0.681254
+18,Without both acceleration groups,Stationary postures,0.780702,0.172239,0.360010,0.569815,0.221046,0.714422
+20,Without both acceleration groups,Stationary postures,0.542135,0.421280,0.376999,0.577546,0.260648,0.695607
+24,Without both acceleration groups,Stationary postures,0.536802,0.463198,0.362804,0.637196,0.238445,0.761555
+2,Without body acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+4,Without body acceleration,Walking activities,0.992593,-0.037037,0.987037,-0.046296,0.989791,-0.046121
+9,Without body acceleration,Walking activities,0.762073,0.191835,0.747384,0.239011,0.714562,0.255239
+10,Without body acceleration,Walking activities,0.669403,-0.012842,0.673357,0.007307,0.607442,0.059927
+12,Without body acceleration,Walking activities,0.975282,0.012372,1.000000,-0.007246,0.987354,0.002694
+13,Without body acceleration,Walking activities,0.987103,0.012897,0.988304,0.011696,0.987536,0.012464
+18,Without body acceleration,Walking activities,0.983041,0.016959,0.981818,0.018182,0.982055,0.017945
+20,Without body acceleration,Walking activities,0.925366,0.074634,0.954248,0.045752,0.935807,0.064193
+24,Without body acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without body acceleration,Stationary postures,0.878431,-0.002462,0.775362,-0.007246,0.756261,-0.010229
+4,Without body acceleration,Stationary postures,0.856061,0.000000,0.779762,-0.005952,0.743768,-0.006727
+9,Without body acceleration,Stationary postures,0.560225,-0.024621,0.594074,0.000000,0.533787,-0.004910
+10,Without body acceleration,Stationary postures,0.730159,-0.068721,0.655724,-0.011494,0.689042,-0.038537
+12,Without body acceleration,Stationary postures,1.000000,0.000000,0.978142,0.016393,0.988701,0.008545
+13,Without body acceleration,Stationary postures,0.954545,-0.004297,0.938776,-0.006803,0.941902,-0.006662
+18,Without body acceleration,Stationary postures,0.952941,0.000000,0.929825,0.000000,0.935468,0.000000
+20,Without body acceleration,Stationary postures,0.961039,0.002376,0.931714,0.022831,0.944499,0.011756
+24,Without body acceleration,Stationary postures,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without total acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+4,Without total acceleration,Walking activities,0.921569,0.033987,0.881481,0.059259,0.883483,0.060187
+9,Without total acceleration,Walking activities,0.955256,-0.001349,0.952381,0.034014,0.951802,0.017999
+10,Without total acceleration,Walking activities,0.652402,0.004160,0.663121,0.017544,0.655791,0.011578
+12,Without total acceleration,Walking activities,0.993711,-0.006056,1.000000,-0.007246,0.996825,-0.006778
+13,Without total acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+18,Without total acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+20,Without total acceleration,Walking activities,0.981481,0.018519,0.980392,0.019608,0.980375,0.019625
+24,Without total acceleration,Walking activities,1.000000,0.000000,1.000000,0.000000,1.000000,0.000000
+2,Without total acceleration,Stationary postures,0.527708,0.348261,0.394257,0.373859,0.281846,0.464186
+4,Without total acceleration,Stationary postures,0.504194,0.351867,0.397857,0.375952,0.289448,0.447594
+9,Without total acceleration,Stationary postures,0.344360,0.191244,0.373333,0.220741,0.262817,0.266060
+10,Without total acceleration,Stationary postures,0.686590,-0.025152,0.372199,0.272031,0.265499,0.385006
+12,Without total acceleration,Stationary postures,0.458673,0.541327,0.388760,0.605775,0.295055,0.702190
+13,Without total acceleration,Stationary postures,0.603024,0.347225,0.378088,0.553885,0.269151,0.666089
+18,Without total acceleration,Stationary postures,0.644895,0.308046,0.373708,0.556116,0.248314,0.687154
+20,Without total acceleration,Stationary postures,0.357488,0.605927,0.367383,0.587163,0.243092,0.713163
+24,Without total acceleration,Stationary postures,0.512304,0.487696,0.367434,0.632566,0.241021,0.758979
